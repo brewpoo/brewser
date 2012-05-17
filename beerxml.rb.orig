@@ -1,0 +1,209 @@
+class BeerXML < Brewser::Engine
+  
+  require 'nokogiri'
+  
+  module BeerXMLExtensions
+      def self.included(base)
+        base.extend(ClassMethods)
+      end
+
+      # Reads the child (attribute) and sets the attribute
+      #
+      # @param [Nokogiri::XML::Element] node the node that contains the attribute
+      # @param [String] attr_name the attribute to parse
+      # @param [String] node_name the XML node name of the attribute
+      def read_beerxml_field(node, attr_name, node_name = attr_name.upcase)        
+        child = (node>node_name).first
+        return unless child
+        child = child.text
+        child = yield(child) if block_given?
+        self.send("#{attr_name}=", child)
+      end
+
+      # Parse a Nokogiri node, reading in the properties defined on this model.
+      # Assumes the node is of the correct type.
+      #
+      # @param [Nokogiri::XML::Element] node node to parse
+      def from_beerxml(node)
+        puts "Node: #{node.name}"
+        properties.each do |property|
+          puts "Property: #{property.name}"
+          read_beerxml_field(node, property.name.to_s)
+        end
+        # load any relationships with other beerxml models
+        relationships.each do |rel|
+          puts "Relationship: #{rel.name}"
+          # don't ever serialize the parent recipe
+          next if rel.name == :recipe
+          if rel.max == 1
+            # Singular child, set the relation to the results of from_xml
+            (node>rel.child_model.node_name.upcase).each do |child_node|
+              self.send("#{rel.name}=", rel.child_model.new.from_beerxml(child_node))
+            end
+          else
+            # Plural child(ren), 
+            # look for the plural element in the children of this node
+            # e.g., for Hop, see if there's any HOPS element.
+            (node>rel.child_model.collection_name.upcase).each do |child_wrapper_node|
+              collection = BeerXML.collection_from_beerxml(child_wrapper_node)
+              self.send(rel.name).concat(collection)
+            end
+          end
+        end
+        self
+      end
+      
+      # Reads the child (attribute) and sets the attribute
+      #
+      # @param [Nokogiri::XML::Element] node the node that contains the attribute
+      # @param [String] attr_name the attribute to parse
+      # @param [String] node_name the XML node name of the attribute
+      def read_beerxml2_field(node, attr_name, node_name = attr_name)
+        puts "Looking for #{node_name}"
+        child = (node>node_name).first
+        return unless child
+        child = child.text
+        child = yield(child) if block_given?
+        puts "#{attr_name} = #{child}"
+        self.send("#{attr_name}=", child)
+      end
+
+      # Parse a Nokogiri node, reading in the properties defined on this model.
+      # Assumes the node is of the correct type.
+      #
+      # @param [Nokogiri::XML::Element] node node to parse
+      def from_beerxml2(node)
+        puts "In BeerXML v2"
+        puts "Node: #{node.name}"
+        properties.each do |property|
+          puts "Property: #{property.name}"
+          read_beerxml2_field(node, property.name.to_s)
+        end
+        # load any relationships with other beerxml models
+        relationships.each do |rel|
+          puts "Relationship: #{rel.name}"
+          # don't ever serialize the parent recipe
+          next if rel.name == :recipe
+          if rel.max == 1
+            puts "Single Child #{rel.child_model.node_name}"
+            # Singular child, set the relation to the results of from_xml
+            (node>rel.child_model.node_name).each do |child_node|
+              self.send("#{rel.name}=", rel.child_model.new.from_beerxml2(child_node))
+            end
+          else
+            puts "Plural Children #{rel.child_model.collection_name}"
+            (node>rel.child_model.collection_name).each do |child_wrapper_node|
+              collection = BeerXML.collection_from_beerxml2(child_wrapper_node)
+              self.send(rel.name).concat(collection)
+            end
+          end
+        end
+        self
+      end
+
+      module ClassMethods
+      end
+     
+   end
+
+   # include the extension 
+   Brewser::Model.send(:include, BeerXMLExtensions)
+  
+  class << self
+    
+    def acceptable?(q)
+      Nokogiri::XML(q){|config| config.noblanks }.root ? true : false
+    end
+    
+    def deserialize(string_or_io)
+      results = parse_xml(string_or_io)
+      puts results.inspect
+      return results
+    end
+    
+    def parse_xml(string_or_io)
+      # Need to identify which version of BeerXML we are dealing with
+      xml = Nokogiri::XML(string_or_io){|config| config.noblanks }.root
+      results = self.examine_xml(xml)
+      case results[:version]
+      when 1
+        return BeerXML.from_beerxml(xml)
+      when 2
+        # Strip the beer_xml node
+        return BeerXML.from_beerxml2(xml.children[1])
+      else
+        raise "Brewser: unidentifiable XML"
+      end
+    end
+
+    def examine_xml(xml)
+      namespace = xml.namespace.nil? ? nil : 'xmlns:'
+      version = xml.xpath("//#{namespace}version").inner_text.to_i
+      if version == 0 # Not found so must be version 1
+        version = 1
+        subject = xml.children[0].node_name.downcase
+        count = xml.search("//#{subject.upcase}").size
+
+      else
+        subject = xml.xpath("//#{namespace}beer_xml").children[1].children[0].node_name
+        count = xml.search("//#{namespace}#{subject}").size
+      end
+      # puts "Version: #{version} Namespace: #{namespace}"
+      # puts "Subject: #{subject} Count: #{count}"
+      return { :version => version, :subject => subject, :count => count }
+    end
+      
+    def from_beerxml(xml_node)
+      puts "Node: #{xml_node.name}"
+      if model = Brewser::Model.models[xml_node.name.downcase]
+        puts "Found singular #{model}"
+        model.new.from_beerxml(xml_node)
+      elsif model = Brewser::Model.collections[xml_node.name.pluralize.downcase]
+        puts "Found collection #{model}"
+        collection_from_beerxml(xml_node)
+      else
+        raise "Unknown node type: #{xml_node.name}"
+      end
+    end
+    
+    # Takes a collection root xml node, like <HOPS>, and returns an array of the
+    # child model objects inside the node.
+    #
+    # @param [Nokogiri::XML::Element] collection_node the collection to parse
+    def collection_from_beerxml(collection_node)
+      model = Brewser::Model.collections[collection_node.name.downcase]
+      raise("Unknown BeerXML collection node type: #{collection_node}") unless model
+      (collection_node>model.node_name.upcase).map do |child_node|
+        puts "Building new #{model}"
+        model.new.from_beerxml(child_node)
+      end
+    end
+    
+    def from_beerxml2(xml_node)
+      if model = Brewser::Model.models[xml_node.name]
+        puts "New node #{xml_node.name}"
+        model.new.from_beerxml2(xml_node)
+      elsif model = Brewser::Model.collections[xml_node.name]
+        puts "New collection #{xml_node.name}"
+        collection_from_beerxml2(xml_node)
+      else
+        raise "Unknown node type: #{xml_node.name}"
+      end
+    end
+    
+    # Takes a collection root xml node, like <HOPS>, and returns an array of the
+    # child model objects inside the node.
+    #
+    # @param [Nokogiri::XML::Element] collection_node the collection to parse
+    def collection_from_beerxml2(collection_node)
+      puts "Pulling in collection #{collection_node.name}"
+      model = Brewser::Model.collections[collection_node.name.underscore]
+      raise("Unknown BeerXML collection node type: #{collection_node}") unless model
+      (collection_node>model.node_name).map do |child_node|
+        model.new.from_beerxml2(child_node)
+      end
+    end
+    
+  end
+end
+

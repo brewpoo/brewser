@@ -1,0 +1,111 @@
+Pumplin Ale
+
+A ProMash Recipe Report
+
+BJCP Style and Style Guidelines
+-------------------------------
+
+06-B  American Pale Ales, American Amber Ale
+
+Min OG:  1.045   Max OG:  1.056
+Min IBU:    20   Max IBU:    40
+Min Clr:    11   Max Clr:    18  Color in SRM, Lovibond
+
+Recipe Specifics
+----------------
+
+Batch Size (Gal):         5.50    Wort Size (Gal):    5.50
+Total Grain (Lbs):       11.00
+Anticipated OG:          1.054    Plato:             13.36
+Anticipated SRM:           9.6
+Anticipated IBU:          28.5
+Brewhouse Efficiency:       75 %
+Wort Boil Time:             60    Minutes
+
+Pre-Boil Amounts
+----------------
+
+Evaporation Rate:      15.00    Percent Per Hour
+Pre-Boil Wort Size:    6.47    Gal
+Pre-Boil Gravity:      1.046    SG          11.44  Plato
+
+Formulas Used
+-------------
+
+Brewhouse Efficiency and Predicted Gravity based on Method #1, Potential Used.
+Final Gravity Calculation Based on Points.
+Hard Value of Sucrose applied. Value for recipe: 46.2100 ppppg
+Yield Type used in Gravity Prediction: Fine Grind Dry Basis.
+
+Color Formula Used:   Morey
+Hop IBU Formula Used: Rager
+
+Additional Utilization Used For Plug Hops:         2 %
+Additional Utilization Used For Pellet Hops:      10 %
+
+
+Grain/Extract/Sugar
+
+   %     Amount     Name                          Origin        Potential SRM
+-----------------------------------------------------------------------------
+ 45.5     5.00 lbs. Munich Malt                   Germany        1.037      8
+  9.1     1.00 lbs. Wheat Malt                    America        1.038      2
+  9.1     1.00 lbs. Victory Malt                  America        1.034     25
+ 36.4     4.00 lbs. Vienna Malt                   America        1.035      4
+
+Potential represented as SG per pound per gallon.
+
+
+Hops
+
+   Amount     Name                              Form    Alpha  IBU  Boil Time
+-----------------------------------------------------------------------------
+  1.00 oz.    Mt. Hood                          Pellet   6.50  28.5  60 min.
+
+
+Yeast
+-----
+
+  
+
+
+Water Profile
+-------------
+
+Profile:           
+Profile known for: 
+
+Calcium(Ca):           0.0 ppm
+Magnesium(Mg):         0.0 ppm
+Sodium(Na):            0.0 ppm
+Sulfate(SO4):          0.0 ppm
+Chloride(Cl):          0.0 ppm
+biCarbonate(HCO3):     0.0 ppm
+
+pH: 0.00
+
+
+Mash Schedule
+-------------
+
+Mash Type: Single Step
+
+Grain Lbs:   11.00
+Water Qts:    0.00 - Before Additional Infusions
+Water Gal:    0.00 - Before Additional Infusions
+
+Qts Water Per Lbs Grain: 0.00 - Before Additional Infusions
+
+Saccharification Rest Temp :   0  Time:   0
+Mash-out Rest Temp :           0  Time:   0
+Sparge Temp :                  0  Time:   0
+
+
+Total Mash Volume Gal: 0.00 - Dough-In Infusion Only
+
+All temperature measurements are degrees Fahrenheit.
+
+
+
+
+
