@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<RECIPEES>
+    <RECIPEE>
+        <FERMENTABLES>
+            <FERMENTABLE>
+                <NAME>Gambrinus Pilsner Malt</NAME>
+                <VERSION>1</VERSION>
+                <YIELD>82.000000</YIELD>
+                <COLOR>1.650000</COLOR>
+                <AMOUNT>4.989490</AMOUNT>
+                <NOTES>In Mash/Steeped</NOTES>
+                <TYPE>Grain</TYPE>
+            </FERMENTABLE>
+            <FERMENTABLE>
+                <NAME>US White Wheat Malt</NAME>
+                <VERSION>1</VERSION>
+                <YIELD>84.000000</YIELD>
+                <COLOR>2.500000</COLOR>
+                <AMOUNT>0.226795</AMOUNT>
+                <NOTES>In Mash/Steeped</NOTES>
+                <TYPE>Grain</TYPE>
+            </FERMENTABLE>
+            <FERMENTABLE>
+                <NAME>US Aromatic Malt</NAME>
+                <VERSION>1</VERSION>
+                <YIELD>77.000000</YIELD>
+                <COLOR>20.000000</COLOR>
+                <AMOUNT>0.226795</AMOUNT>
+                <NOTES>In Mash/Steeped</NOTES>
+                <TYPE>Grain</TYPE>
+            </FERMENTABLE>
+            <FERMENTABLE>
+                <NAME>Sugar - White Sugar/Sucrose</NAME>
+                <VERSION>1</VERSION>
+                <YIELD>99.000000</YIELD>
+                <COLOR>0.000000</COLOR>
+                <AMOUNT>0.680385</AMOUNT>
+                <NOTES>Start Of Boil</NOTES>
+                <TYPE>Sugar</TYPE>
+            </FERMENTABLE>
+        </FERMENTABLES>
+        <HOPS>
+            <HOP>
+                <NAME>Hallertau Select</NAME>
+                <VERSION>1</VERSION>
+                <ALPHA>4.000000</ALPHA>
+                <AMOUNT>0.045360</AMOUNT>
+                <NOTES>60 Min From End</NOTES>
+                <USE>Boil</USE>
+                <TIME>60</TIME>
+                <FORM>Pellet</FORM>
+            </HOP>
+        </HOPS>
+        <YEASTS>
+            <YEAST>
+                <NAME>Wyeast 1214-Belgian Ale</NAME>
+                <VERSION>1</VERSION>
+                <ATTENUATION>74.000000</ATTENUATION>
+                <FORM>Liquid</FORM>
+                <TYPE>Ale</TYPE>
+                <AMOUNT>0.135000</AMOUNT>
+                <AMOUNT_IS_WEIGHT>FALSE</AMOUNT_IS_WEIGHT>
+            </YEAST>
+        </YEASTS>
+        <MISCS></MISCS>
+        <STYLE>
+            <CATEGORY>Belgian Strong Ale</CATEGORY>
+            <NAME>Belgian Blond Ale</NAME>
+            <VERSION>1</VERSION>
+            <TYPE>Ale</TYPE>
+            <CATEGORY_NUMBER>18</CATEGORY_NUMBER>
+            <STYLE_LETTER>A</STYLE_LETTER>
+            <OG_MIN>1.062</OG_MIN>
+            <OG_MAX>1.075</OG_MAX>
+            <IBU_MIN>15</IBU_MIN>
+            <IBU_MAX>30</IBU_MAX>
+            <COLOR_MIN>4</COLOR_MIN>
+            <COLOR_MAX>7</COLOR_MAX>
+            <FG_MIN>1.016</FG_MIN>
+            <FG_MAX>1.019</FG_MAX>
+        </STYLE>
+        <WATERS>
+            <WATER>
+                <NAME>The brewer's water</NAME>
+                <VERSION>1</VERSION>
+                <AMOUNT>31.940948</AMOUNT>
+                <SULFATE>0.000000</SULFATE>
+                <CALCIUM>0.000000</CALCIUM>
+                <MAGNESIUM>0.000000</MAGNESIUM>
+                <CHLORIDE>0.000000</CHLORIDE>
+                <SODIUM>0.000000</SODIUM>
+                <BICARBONATE>0.000000</BICARBONATE>
+            </WATER>
+        </WATERS>
+        <MASH>
+            <NAME>150 Mash</NAME>
+            <VERSION>1</VERSION>
+            <GRAIN_TEMP>20</GRAIN_TEMP>
+            <MASH_STEPS>
+                <MASH_STEP>
+                    <NAME>Rest at</NAME>
+                    <VERSION>1</VERSION>
+                    <TYPE>Infusion</TYPE>
+                    <INFUSE_AMOUNT>0.0</INFUSE_AMOUNT>
+                    <STEP_TEMP>65.555557</STEP_TEMP>
+                    <STEP_TIME>60.000000</STEP_TIME>
+                    <RAMP_TIME>0</RAMP_TIME>
+                </MASH_STEP>
+            </MASH_STEPS>
+        </MASH>
+        <NAME>Jamil's Lefty Blond</NAME>
+        <VERSION>1</VERSION>
+        <TYPE>All Grain</TYPE>
+        <BREWER>Nate McLaughlin</BREWER>
+        <BATCH_SIZE>18.927052</BATCH_SIZE>
+        <BOIL_SIZE>26.497869</BOIL_SIZE>
+        <BOIL_TIME>90</BOIL_TIME>
+        <EFFICIENCY>70.000000</EFFICIENCY>
+        <NOTES>Raise ferment temp to 68 over a course of one week.
+
+Lager for 1 month at 45F when done fermenting.</NOTES>
+        <PRIMARY_TEMP>17.777779</PRIMARY_TEMP>
+    </RECIPEE>
+</RECIPEES>
