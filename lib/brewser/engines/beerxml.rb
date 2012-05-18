@@ -10,22 +10,27 @@ class BeerXML < Brewser::Engine
     end
     
     # Attempt to deserialize the data
-    # Need to identify the top level i.e HOPS and iterate over those
-    # @TODO add error catching here
     def deserialize(string_or_io)
-      results = parse_xml(string_or_io)
-      return results
+      begin
+        outer = Nokogiri::XML(string_or_io).root
+        # We expect to find a plural of one of the models
+        (outer>outer.node_name.singularize).map do |inner|
+          ("BeerXML::#{inner.node_name.downcase.camelcase}".constantize).from_xml(inner)
+        end
+     rescue
+       raise "Brewser: BeerXML encountered an issue and can not continue"
+      end
     end
     
-    def parse_xml(string_or_io)
-      raise "Brewser: BeerXML support is not implemented yet"
-    end
  
   end
 end
 
 require 'roxml'
 
+#
+#
+# These models add the hooks to deserialize the data using ROXML
 class BeerXML::Hop < Brewser::Hop
   include ROXML
   
@@ -90,13 +95,21 @@ class BeerXML::Additive < Brewser::Additive
   
   xml_attr :type, :from => "TYPE"
   xml_attr :form, :from => "FORM"
-  xml_attr :amount, :from => "AMOUNT", :as => Float
   
-  xml_attr :use, :from => "USE"
+  xml_reader :amount_scalar, :from => "AMOUNT"
+  xml_reader :weight?, :from => "AMOUNT_IS_WEIGHT"
+    
+  xml_attr :added_when, :from => "USE"
   xml_attr :use_for, :from => "USE_FOR"
   xml_attr :time, :from => "TIME"
   
-  xml_attr :notes, :from => "NOTES"
+  xml_attr :description, :from => "NOTES"
+  
+  def amount
+    units = weight? ? "kg" : "l"
+    return amount_scalar.u * units.u
+  end
+  
 end
 
 class BeerXML::Yeast < Brewser::Yeast
@@ -105,31 +118,32 @@ class BeerXML::Yeast < Brewser::Yeast
   xml_name "YEAST"
 
   xml_attr :name, :from => "NAME"
-  xml_attr :laboratory, :from => "LABORATORY"
+  xml_attr :supplier, :from => "LABORATORY"
   xml_attr :product_id, :from => "PRODUCT_ID"
   
   xml_attr :type, :from => "TYPE"
   xml_attr :form, :from => "FORM"
-  xml_attr :amount, :from => "AMOUNT"
-  
-  xml_attr :use, :from => "USE"
-  xml_attr :time, :from => "TIME"
-  
+  xml_reader :amount_scalar, :from => "AMOUNT"
+  xml_reader :weight?, :from => "AMOUNT_IS_WEIGHT"
+    
   xml_attr :min_temperature, :from => "MIN_TEMPERATURE"
   xml_attr :max_temperature, :from => "MAX_TEMPERATURE"
   
   xml_attr :flocculation, :from => "FLOCCULATION"
   xml_attr :attenuation, :from => "ATTENUATION", :as => Float
   xml_attr :best_for, :from => "BEST_FOR"
-  xml_attr :add_to_secondary, :from => "ADD_TO_SECONDARY
-  "
-  # property :amount, AmountIsWeight::VolumeOrWeight, :required => true
-  # include AmountIsWeight
+  xml_attr :add_to_secondary, :from => "ADD_TO_SECONDARY"
 
   xml_attr :time_cultured, :from => "TIMES_CULTURED"
   xml_attr :max_reuse, :from => "MAX_REUSE"
 
-  xml_attr :notes, :from => "NOTES"
+  xml_attr :description, :from => "NOTES"
+    
+  def amount
+    units = weight? ? "kg" : "l"
+    return amount_scalar.u * units.u
+  end
+  
 end
 
 class BeerXML::MashStep < Brewser::MashStep
@@ -157,6 +171,23 @@ class BeerXML::MashSchedule < Brewser::MashSchedule
   xml_attr :name, :from => "NAME"
   xml_attr :notes, :from => "NOTES"
   xml_attr :mash_steps, :as => [BeerXML::MashStep], :in => "MASH_STEPS"
+end
+
+class BeerXML::FermentationStep < Brewser::FermentationStep
+  include ROXML
+  
+  xml_name "MASH_STEP"
+  
+  xml_attr :name, :from => "NAME"
+  xml_attr :description, :from => "DESCRIPTION"
+  
+  xml_attr :purpose, :from => "PURPOSE"
+  xml_attr :step_type, :from => "TYPE"
+  
+  xml_attr :step_time, :from => "STEP_TIME"
+  xml_attr :rest_temperature, :from => "STEP_TEMP"
+  
+  xml_attr :notes, :from => "NOTES"
 end
 
 class BeerXML::FermentationSchedule < Brewser::FermentationSchedule
@@ -230,7 +261,7 @@ class BeerXML::Recipe < Brewser::Recipe
   include ROXML
   
   xml_name "RECIPE"
-  #xml_attr :created_on, :from => "DATE"
+  xml_attr :date_created, :from => "DATE"
   xml_attr :name, :from => "NAME"
   xml_attr :type, :from => "TYPE"
   xml_attr :style, :as => BeerXML::Style
@@ -261,7 +292,3 @@ class BeerXML::Recipe < Brewser::Recipe
   xml_attr :notes, :from => "NOTES"
 end
 
-class BeerXML::Recipes
-  include ROXML
-  xml_reader :recipes, :as => [BeerXML::Recipe]
-end
