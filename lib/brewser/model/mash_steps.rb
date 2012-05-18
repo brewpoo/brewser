@@ -11,8 +11,6 @@ module Brewser
     
     property :rest_temperature, Temperature, :required => true
     
-    # property :id, Serial
-    # belongs_to :mash_schedule
   end
   
 end
