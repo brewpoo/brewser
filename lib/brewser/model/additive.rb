@@ -5,8 +5,6 @@ module Brewser
     property :added_when, String, :set => ['Boil', 'Mash', 'Primary', 'Secondary', 'Bottling'], :required => true
     property :time, Time, :required => true
     property :amount, String, :required => true
-    # property :amount, AmountIsWeight::VolumeOrWeight, :required => true
-    # include AmountIsWeight
 
     property :use_for, String
     property :notes, String, :length => 65535
