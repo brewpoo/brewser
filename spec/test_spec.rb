@@ -14,8 +14,16 @@ describe "test spec" do
     Brewser.identify(read_file('beerxmlv2/belgian_white')).should == BeerXML2
   end
   
-  it "should parse BeerXML v1" do
-    Brewser.parse(read_file('beerxmlv1/recipes')).should_not be_nil
+  context "BeerXML v1" do
+    
+    before :each do
+      @recipe = Brewser.parse(read_file('beerxmlv1/recipes')).first
+    end
+    
+    it "should extract BeerXML v1 recipes" do
+      @recipe.class.should == BeerXML::Recipe
+    end
+  
   end
   
   # it "should parse BeerXML v2" do
