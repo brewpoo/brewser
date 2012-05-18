@@ -9,7 +9,7 @@ module Brewser
     require "#{File.dirname(__FILE__)}/properties"
     include Properties
     
-    DataMapper.setup(:default, "abstract::")
+    DataMapper.setup(:default, :adapter => 'in_memory')
 
     #
     #
