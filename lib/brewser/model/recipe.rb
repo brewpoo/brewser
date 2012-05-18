@@ -1,7 +1,7 @@
 module Brewser
   
   class Recipe < Model
-    property :created_on, String
+    property :date_created, Date
     property :name, String, :required => true
     property :type, String, :set => ['Extract', 'Partial Mash', 'All Grain'], :required => true
     
