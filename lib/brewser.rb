@@ -15,7 +15,7 @@ module Brewser
       return BeerXML if BeerXML.acceptable?(string_or_io)
       return ProMashRec if ProMash.acceptable?(string_or_io)
       return ProMashTxt if ProMashTxt.acceptable?(string_or_io)
-      return nil
+      raise "Brewson: unable to identify content"
     end
     
     # Executes the engine matching the given string
