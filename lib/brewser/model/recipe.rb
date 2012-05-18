@@ -3,6 +3,8 @@ module Brewser
   class Recipe < Model
     property :date_created, Date
     property :name, String, :required => true
+    property :description, String, :length => 65535
+
     property :type, String, :set => ['Extract', 'Partial Mash', 'All Grain'], :required => true
     
     has 1, :style
@@ -25,14 +27,14 @@ module Brewser
     has 1, :water_profile
 
     property :asst_brewer, String
-    property :notes, String, :length => 65535
     property :taste_notes, String, :length => 65535
     property :taste_rating, Float
     
     property :estimated_og, Float
     property :estimated_fg, Float
     property :estimated_color, Float
-    property :estimated_ibus, Float
+    property :estimated_ibu, Float
+    property :estimated_abv, Float
     
     property :source, String, :length => 65535
     property :url, String, :length => 65535

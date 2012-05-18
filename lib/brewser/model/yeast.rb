@@ -6,8 +6,6 @@ module Brewser
     property :description, String, :length => 65535
     
     property :type, String, :set => ['Ale', 'Lager', 'Wheat', 'Wine', 'Champagne'], :required => true
-    property :form, String, :set => ['Liquid', 'Dry', 'Slant', 'Culture'], :required => true
-    property :amount, String, :required => true
 
     property :supplier, String
     property :catalog, String
@@ -18,10 +16,14 @@ module Brewser
     property :attenuation, Float
     property :best_for, String
     property :max_reuse, Integer
+    
+    # Recipes
+    property :add_to_secondary?, Boolean
+    property :form, String, :set => ['Liquid', 'Dry', 'Slant', 'Culture'], :required => true
+    property :amount, String, :required => true
 
     # These are applicable only in Batches
     property :times_cultured, Integer
-    property :add_to_secondary, Boolean
 
   end
 end
