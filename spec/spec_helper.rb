@@ -1,12 +1,12 @@
-require 'rubygems'
-require 'bundler'
-Bundler.require
-
 require 'simplecov'
 
 SimpleCov.start do
   add_filter "spec/"
 end
+
+require 'rubygems'
+require 'bundler'
+Bundler.require
 
 require 'brewser'
 require 'rspec'
