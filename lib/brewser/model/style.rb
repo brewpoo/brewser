@@ -23,9 +23,5 @@ module Brewser
     property :profile, String, :length => 65535
     property :ingredients, String, :length => 65535
     property :examples, String, :length => 65535
-
-    # these are not used in the xml
-    # property :id, Serial
-    # belongs_to :recipe, :required => false
   end
 end

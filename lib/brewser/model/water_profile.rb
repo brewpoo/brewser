@@ -12,9 +12,5 @@ module Brewser
     property :bicarbonate, Float
     property :alkalinity, Float
     property :ph, Float
-    
-    # these are not used in the xml
-    # property :id, Serial
-    # belongs_to :recipe, :required => false
   end
 end

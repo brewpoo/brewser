@@ -33,13 +33,6 @@ module Brewser
       node_name.pluralize
     end
 
-    # Adds the models singular and plural names to class attributes
-    def self.inherited(klass)
-      super
-      # @models[klass.node_name] = klass
-      # @collections[klass.collection_name] = klass
-    end
-
     def as_brewson
       BrewSON.serialize(self)
     end

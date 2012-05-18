@@ -10,7 +10,6 @@ module Brewser
     property :step_time, Time, :required => true
     
     property :rest_temperature, Temperature, :required => true
-    
   end
   
 end

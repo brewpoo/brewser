@@ -31,11 +31,11 @@ require 'roxml'
 #
 #
 # These models add the hooks to deserialize the data using ROXML
+#  Brought in as a seperate model to allow multiple version of BeerXML
 class BeerXML::Hop < Brewser::Hop
   include ROXML
   
   xml_name "HOP"
-
   xml_attr :name, :from => "NAME"
   xml_attr :origin, :from => "ORIGIN"
   
@@ -62,7 +62,6 @@ class BeerXML::Fermentable < Brewser::Fermentable
   include ROXML
   
   xml_name "FERMENTABLE"
-
   xml_attr :name, :from => "NAME"
   xml_attr :origin, :from => "ORIGIN"
   xml_attr :supplier, :from => "SUPPLIER"
@@ -89,7 +88,6 @@ class BeerXML::Additive < Brewser::Additive
   include ROXML
   
   xml_name "MISC"
-
   xml_attr :name, :from => "NAME"
   xml_attr :origin, :from => "ORIGIN"
   
@@ -116,7 +114,6 @@ class BeerXML::Yeast < Brewser::Yeast
   include ROXML
   
   xml_name "YEAST"
-
   xml_attr :name, :from => "NAME"
   xml_attr :supplier, :from => "LABORATORY"
   xml_attr :product_id, :from => "PRODUCT_ID"
@@ -150,7 +147,6 @@ class BeerXML::MashStep < Brewser::MashStep
   include ROXML
   
   xml_name "MASH_STEP"
-  
   xml_attr :name, :from => "NAME"
   xml_attr :description, :from => "DESCRIPTION"
   
@@ -167,7 +163,6 @@ class BeerXML::MashSchedule < Brewser::MashSchedule
   include ROXML
   
   xml_name "MASH"
-  
   xml_attr :name, :from => "NAME"
   xml_attr :notes, :from => "NOTES"
   xml_attr :mash_steps, :as => [BeerXML::MashStep], :in => "MASH_STEPS"
@@ -177,7 +172,6 @@ class BeerXML::FermentationStep < Brewser::FermentationStep
   include ROXML
   
   xml_name "MASH_STEP"
-  
   xml_attr :name, :from => "NAME"
   xml_attr :description, :from => "DESCRIPTION"
   
@@ -193,27 +187,14 @@ end
 class BeerXML::FermentationSchedule < Brewser::FermentationSchedule
   include ROXML
   
-  xml_name "RECIPE"
+  xml_name "RECIPE" # Fermentation data is stored at the recipe level in v1
   
-  # xml_attr :name, :from => "NAME"
-  # xml_attr :origin, :from => "ORIGIN"
-  # 
-  # xml_attr :type, :from => "TYPE"
-  # xml_attr :form, :from => "FORM"
-  # xml_attr :amount, :from => "AMOUNT", :as => Float
-  # 
-  # xml_attr :use, :from => "USE"
-  # xml_attr :use_for, :from => "USE_FOR"
-  # xml_attr :time, :from => "TIME"
-  # 
-  # xml_attr :notes, :from => "NOTES"
 end
 
 class BeerXML::WaterProfile < Brewser::WaterProfile
   include ROXML
   
   xml_name "WATER"
-
   xml_attr :name, :from => "NAME"
   xml_attr(:calcium, :from => "CALCIUM") {|x| x.to_f }
   xml_attr(:magnesium, :from => "MAGNESIUM") {|x| x.to_f }

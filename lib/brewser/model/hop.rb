@@ -17,8 +17,5 @@ module Brewser
     property :caryophyllene, String, :length => 512
     property :cohumulone, String, :length => 512
     property :myrcene, String, :length => 512
-
-    # property :id, Serial
-    # belongs_to :recipe, :required => false
   end
 end

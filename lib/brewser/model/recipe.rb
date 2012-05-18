@@ -40,8 +40,6 @@ module Brewser
     property :carbonation_level, Float
   
     validates_presence_of :mash_schedule, :if => proc { |t| t.type != 'Extract' }
-
-    # property :id, Serial
   end
 
 end

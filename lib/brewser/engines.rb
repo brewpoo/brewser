@@ -1,5 +1,6 @@
 module Brewser
   
+  # Skeleton for an engine
   class Engine
     
     def self.acceptable?(q)

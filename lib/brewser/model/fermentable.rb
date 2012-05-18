@@ -17,8 +17,5 @@ module Brewser
     property :max_in_batch, Float
     property :recommend_mash, Boolean
     property :ibu_gal_per_lb, Float
-
-    # property :id, Serial
-    # belongs_to :recipe, :required => false
   end
 end
