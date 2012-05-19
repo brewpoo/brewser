@@ -111,18 +111,52 @@ describe "BeerXML tests" do
       m=@recipe.mash_schedule
       m.mash_steps.count.should == 2
       s=m.mash_steps.first
-      
       s.name.should == "Mash In"
       s.type.should == "Infusion"
       s.description.should_not be_nil
-      
       s.rest_time.should == "45 min".u
       s.rest_temperature.should == "70 dC".u
       s.infusion_volume.should == "11.25 qt".u
       s.infusion_temperature.should == "170.5 dF".u
-      
       s.water_to_grain_ratio.should == 1.25
     end
 
+    it "should deserialize the water profile data" do
+      w=@recipe.water_profile
+      w.name.should == "Burton On Trent, UK"
+      w.description.should == "Distinctive pale ales strongly hopped.  Very hard water accentuates the hops flavor.\nExample: Bass Ale"
+      w.calcium.should == 295.0
+      w.bicarbonate.should == 300.0
+      w.sulfates.should == 725.0
+      w.chloride.should == 25.0
+      w.sodium.should == 55.0
+      w.magnesium.should == 45.0
+      w.ph.should ==8.0
+    end
+
+    it "should deserialize the style data" do
+      s=@recipe.style
+      s.name.should == "English Pale Ale"
+      s.category.should == "Bitter & English Pale Ale"
+      s.style_letter.should == "A"
+      s.style_guide.should == "BJCP 1999"
+      s.type.should == "Ale"
+      s.notes.should_not be_nil
+      s.profile.should_not be_nil
+      s.ingredients.should_not be_nil
+      s.examples.should_not be_nil
+      s.og_min.should == 1.043
+      s.og_max.should == 1.060
+      s.fg_min.should == 1.010
+      s.fg_max.should == 1.020
+      s.ibu_min.should == 20.0
+      s.ibu_max.should == 40.0
+      s.color_min.should == 6.0
+      s.color_max.should == 12.0
+      s.carb_min.should == 1.5
+      s.carb_max.should == 2.4
+      s.abv_min.should == 4.5
+      s.abv_max.should == 5.5
+    end
   end
 end
