@@ -209,7 +209,7 @@ class BeerXML::MashStep < Brewser::MashStep
     x="Direct" if x=="Temperature"
     x
   }
-  
+ 
   xml_reader :ramp_time
   xml_reader(:rest_time, :from => "STEP_TIME") { |x| "#{x} min".u }
   
@@ -290,14 +290,15 @@ class BeerXML::WaterProfile < Brewser::WaterProfile
   include ROXML
   
   xml_name "WATER"
+  xml_convention :upcase
   xml_reader :name, :from => "NAME"
   xml_reader(:calcium, :from => "CALCIUM") {|x| x.to_f }
   xml_reader(:magnesium, :from => "MAGNESIUM") {|x| x.to_f }
   xml_reader(:sodium, :from => "SODIUM") {|x| x.to_f }
   xml_reader(:chloride, :from => "CHLORIDE") {|x| x.to_f }
-  xml_reader(:sulfates, :from => "SULFATES") {|x| x.to_f }
+  xml_reader(:sulfates, :from => "SULFATE") {|x| x.to_f }
   xml_reader(:bicarbonate, :from => "BICARBONATE") {|x| x.to_f }
-  xml_reader(:alkalinuty, :from => "ALKALINITY") {|x| x.to_f }
+  xml_reader(:alkalinity, :from => "ALKALINITY") {|x| x.to_f }
   xml_reader(:ph, :from => "PH") {|x| x.to_f }
   xml_reader :description, :from => "NOTES"
 end
@@ -307,52 +308,54 @@ class BeerXML::Style < Brewser::Style
   include ROXML
   
   xml_name "STYLE"
-  xml_reader :name, :from => "NAME"
-  xml_reader :category, :from => "CATEGORY"
-  xml_reader :category_number, :from => "CATEGORY_NUMBER"
-  xml_reader :style_letter, :from => "STYLE_LETTER"
-  xml_reader :style_guide, :from => "STYLE_GUIDE"
-  xml_reader :type, :from => "TYPE"
-  xml_reader :og_min, :from => "OG_MIN"
-  xml_reader :og_max, :from => "OG_MAX"
-  xml_reader :fg_min, :from => "FG_MIN"
-  xml_reader :fg_max, :from => "FG_MAX"
-  xml_reader :ibu_min, :from => "IBU_MIN"
-  xml_reader :ibu_max, :from => "IBU_MAX"
-  xml_reader :color_min, :from => "COLOR_MIN"
-  xml_reader :color_max, :from => "COLOR_MAX"
+  xml_convention :upcase
+  xml_reader :name
+  xml_reader :category
+  xml_reader :category_number
+  xml_reader :style_letter
+  xml_reader :style_guide
+  xml_reader :type
+  xml_reader :og_min
+  xml_reader :og_max
+  xml_reader :fg_min
+  xml_reader :fg_max
+  xml_reader :ibu_min
+  xml_reader :ibu_max
+  xml_reader :color_min
+  xml_reader :color_max
   
-  xml_reader :carb_min, :from => "CARB_MIN"
-  xml_reader :carb_max, :from => "CARB_MAX"
-  xml_reader :abv_min, :from => "ABV_MIN"
-  xml_reader :abv_max, :from => "ABC_MAX"
+  xml_reader :carb_min
+  xml_reader :carb_max
+  xml_reader :abv_min
+  xml_reader :abv_max
   
-  xml_reader :notes, :from => "NOTES"
-  xml_reader :profile, :from => "PROFILE"
-  xml_reader :ingredients, :from => "INGREDIENTS"
-  xml_reader :examples, :from => "EXAMPLES"
+  xml_reader :notes
+  xml_reader :profile
+  xml_reader :ingredients
+  xml_reader :examples
 end
 
 class BeerXML::Recipe < Brewser::Recipe
   include ROXML
   
   xml_name "RECIPE"
+  xml_convention :upcase
   xml_reader :date_created, :from => "DATE"
-  xml_reader :name, :from => "NAME"
-  xml_reader :type, :from => "TYPE"
-  xml_reader :style, :as => BeerXML::Style
+  xml_reader :name
+  xml_reader :type
   
+  xml_attr :style, :as => BeerXML::Style
   xml_attr :mash_schedule, :as => BeerXML::MashSchedule
   xml_attr :fermentation_schedule, :as => BeerXML::FermentationSchedule
   xml_attr :water_profile, :as => BeerXML::WaterProfile, :in => "WATERS"
   
-  xml_reader :brewer, :from => "BREWER"
+  xml_reader :brewer
   xml_reader :assistant, :from => "ASST_BREWER"
   
   xml_reader :recipe_volume, :from => "BATCH_SIZE", :as => Float
   xml_reader :boil_volume, :from => "BOIL_SIZE", :as => Float
-  xml_reader :boil_time, :from => "BOIL_TIME", :as => Integer
-  xml_reader :recipe_efficiency, :from => "RECIPE_EFFICIENCY", :as => Float
+  xml_reader :boil_time, :as => Integer
+  xml_reader :recipe_efficiency, :from => "EFFICIENCY", :as => Float
   xml_reader :carbonation_level, :from => "CARBONATION", :as => Float
 
   xml_reader(:estimated_og, :from => "EST_OG") {|x| x.to_f }
