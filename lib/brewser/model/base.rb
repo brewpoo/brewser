@@ -6,8 +6,8 @@ module Brewser
     require 'active_support/inflector'
     
     include DataMapper::Resource
-    require "#{File.dirname(__FILE__)}/properties"
-    include Properties
+    require "#{File.dirname(__FILE__)}/units"
+    include Units
     
     DataMapper.setup(:default, :adapter => 'in_memory')
 
