@@ -1,6 +1,7 @@
 module Brewser
-  
   class Recipe < Model
+    belongs_to :batch
+    
     property :date_created, Date
     property :name, String, :required => true
     property :description, String, :length => 65535
@@ -42,6 +43,7 @@ module Brewser
     property :carbonation_level, Float
   
     validates_presence_of :mash_schedule, :if => proc { |t| t.type != 'Extract' }
+    
   end
 
 end
