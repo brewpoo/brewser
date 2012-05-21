@@ -41,7 +41,7 @@ module Brewser
       BeerXML2.serialize(self)
     end
     
-    %w(additive fermentable fermentation_schedule fermentation_steps hop mash_schedule mash_steps recipe style water_profile yeast).
+    %w(additive batch fermentable fermentation_schedule fermentation_steps hop mash_schedule mash_steps recipe style water_profile yeast).
        each { |f| require "#{File.dirname(__FILE__)}/#{f}" }
   end
     
