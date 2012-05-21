@@ -10,6 +10,7 @@ class BrewSON < Brewser::Engine
     end
     
     def serialize(brewser_model)
+      brewser_model.deep_json
     end
     
   end

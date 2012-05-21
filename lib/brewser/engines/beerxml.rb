@@ -17,8 +17,8 @@ class BeerXML < Brewser::Engine
         (outer>outer.node_name.singularize).map do |inner|
           ("BeerXML::#{inner.node_name.downcase.camelcase}".constantize).from_xml(inner)
         end
-     rescue
-       raise "Brewser: BeerXML encountered an issue and can not continue"
+     # rescue
+     #   raise "Brewser: BeerXML encountered an issue and can not continue"
       end
     end
     
@@ -48,12 +48,13 @@ class BeerXML::Hop < Brewser::Hop
   xml_reader :uncast_amount, :from => "AMOUNT"
   
   xml_reader :display_time
-  xml_reader :uncast_time
+  xml_reader :uncast_time, :from => "TIME"
   
   xml_reader :added_when, :from => "USE"
   
   xml_reader :alpha_acids, :from => "ALPHA", :as => Float
   xml_reader :beta_acids, :from => "BETA", :as => Float
+  
   xml_reader :humulene, :as => Float
   xml_reader :caryophyllene, :as => Float
   xml_reader :cohumulone, :as => Float
@@ -65,11 +66,11 @@ class BeerXML::Hop < Brewser::Hop
   xml_reader :substitutes
   
   def amount
-    display_amount.u || "#{uncast_amount} kg".u
+    self.amount = display_amount.u || "#{uncast_amount} kg".u
   end
   
   def time
-    display_time.u || "#{uncast_time} min".u
+    self.time = display_time.u || "#{uncast_time} min".u
   end
   
 end
@@ -86,7 +87,7 @@ class BeerXML::Fermentable < Brewser::Fermentable
   xml_reader :type
 
   xml_reader :display_amount
-  xml_reader :uncast_amount
+  xml_reader :uncast_amount, :from => "AMOUNT"
   
   xml_reader :yield_percent, :from => "YIELD"
   xml_reader :uncast_potential, :from => "POTENTIAL"
@@ -315,24 +316,26 @@ class BeerXML::Style < Brewser::Style
   xml_reader :style_letter
   xml_reader :style_guide
   xml_reader :type
-  xml_reader :og_min
-  xml_reader :og_max
-  xml_reader :fg_min
-  xml_reader :fg_max
-  xml_reader :ibu_min
-  xml_reader :ibu_max
-  xml_reader :color_min
-  xml_reader :color_max
   
-  xml_reader :carb_min
-  xml_reader :carb_max
-  xml_reader :abv_min
-  xml_reader :abv_max
-  
-  xml_reader :notes
-  xml_reader :profile
-  xml_reader :ingredients
-  xml_reader :examples
+  # Don't really need these:
+  # xml_reader :og_min
+  # xml_reader :og_max
+  # xml_reader :fg_min
+  # xml_reader :fg_max
+  # xml_reader :ibu_min
+  # xml_reader :ibu_max
+  # xml_reader :color_min
+  # xml_reader :color_max
+  # 
+  # xml_reader :carb_min
+  # xml_reader :carb_max
+  # xml_reader :abv_min
+  # xml_reader :abv_max
+  # 
+  # xml_reader :notes
+  # xml_reader :profile
+  # xml_reader :ingredients
+  # xml_reader :examples
 end
 
 class BeerXML::Recipe < Brewser::Recipe
@@ -350,7 +353,6 @@ class BeerXML::Recipe < Brewser::Recipe
   xml_attr :water_profile, :as => BeerXML::WaterProfile, :in => "WATERS"
   
   xml_reader :brewer
-  xml_reader :assistant, :from => "ASST_BREWER"
   
   xml_reader :recipe_volume, :from => "BATCH_SIZE", :as => Float
   xml_reader :boil_volume, :from => "BOIL_SIZE", :as => Float
