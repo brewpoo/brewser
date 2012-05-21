@@ -1,7 +1,7 @@
 module Brewser
   class Yeast < Model
-    include DataMapper::Resource
-
+    belongs_to :recipe
+    
     property :name, String, :required => true
     property :description, String, :length => 65535
     

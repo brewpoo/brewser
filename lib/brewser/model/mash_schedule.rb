@@ -1,5 +1,7 @@
 module Brewser
-  class MashSchedule < Brewser::Model
+  class MashSchedule < Brewser::Model  
+    belongs_to :recipe
+    
     property :name, String, :required => true
     property :description, String
     property :grain_temp, Temperature

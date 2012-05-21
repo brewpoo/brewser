@@ -1,5 +1,7 @@
 module Brewser
   class Fermentable < Model
+    belongs_to :recipe
+    
     property :name, String, :required => true
     property :origin, String, :length => 512
     property :supplier, String, :length => 512

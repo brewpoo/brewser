@@ -1,5 +1,7 @@
 module Brewser
   class Additive < Model
+    belongs_to :recipe
+    
     property :name, String, :required => true
     property :description, String, :length => 65535
     property :type, String, :set => ['Spice', 'Fining', 'Water Agent', 'Herb', 'Flavor', 'Other'], :required => true

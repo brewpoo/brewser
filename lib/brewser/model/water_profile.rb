@@ -1,7 +1,7 @@
 module Brewser
-  class WaterProfile < Model
-    include DataMapper::Resource
-
+  class WaterProfile < Model    
+    belongs_to :recipe
+    
     property :name, String, :required => true
 
     property :calcium, Float, :required => true

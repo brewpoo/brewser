@@ -1,5 +1,7 @@
 module Brewser 
   class Style < Brewser::Model
+    belongs_to :recipe
+    
     property :name, String, :required => true
     property :category, String, :required => true
     property :category_number, String, :required => true

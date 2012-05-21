@@ -1,5 +1,7 @@
 module Brewser
   class Hop < Model
+    belongs_to :recipe
+    
     property :name, String, :required => true
     property :description, String, :length => 65535
     
