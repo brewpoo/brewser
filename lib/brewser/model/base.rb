@@ -10,29 +10,26 @@ module Brewser
     include Units
     
     DataMapper.setup(:default, :adapter => 'in_memory')
-
-    #
-    #
-    # Setup model and add to class
-    #
-  
-    @models = {}
-    @collections = {}
+    def self.default_repository_name;:default;end
+    def self.auto_migrate_down!(rep);end
+    def self.auto_migrate_up!(rep);end
+    def self.auto_upgrade!(rep);end
+        
+    def deep_json
+      h = {}
+      instance_variables.each do |e|
+        key = e[1..-1]
+        next if ["roxml_references", "_persistence_state", "_key"].include? key
+        o = instance_variable_get e.to_sym
+        h[key] = (o.respond_to? :deep_json) ? o.deep_json : o;
+      end
+      h
+    end
     
-    class << self
-      attr_accessor :models, :collections
+    def to_json *a
+      deep_json.to_json *a
     end
-  
-    # Returns the singular name of the model
-    def self.node_name
-      name.split('::').last.underscore
-    end
-
-    # Returns the plural name of the model
-    def self.collection_name
-      node_name.pluralize
-    end
-
+    
     def as_brewson
       BrewSON.serialize(self)
     end
