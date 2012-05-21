@@ -9,8 +9,8 @@ module Brewser
     property :alpha_acids, Float, :required => true
     property :beta_acids, Float
     property :added_when, String, :set => ['Boil', 'Dry Hop', 'Mash', 'First Wort', 'Aroma', 'Hop Back', 'Infuser'], :required => true
-    property :time, Time, :required => true
-    property :amount, Weight, :required => true    
+    property :time, Time
+    property :amount, Weight   
     
     property :form, String, :set => ['Pellet', 'Plug', 'Leaf']
     
