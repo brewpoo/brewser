@@ -18,11 +18,12 @@ class BeerXML < Brewser::Engine
           ("BeerXML::#{inner.node_name.downcase.camelcase}".constantize).from_xml(inner)
         end
         return cleanup(objects)
-     # rescue
-     #   raise "Brewser: BeerXML encountered an issue and can not continue"
+     rescue
+       raise "Brewser: BeerXML encountered an issue and can not continue"
       end
     end
     
+    # Ugly hack to deal with BeerXML oddities
     def cleanup(brewser_objects)
       brewser_objects.each(&:cleanup)
     end
@@ -189,7 +190,7 @@ class BeerXML::Yeast < Brewser::Yeast
   
   def cleanup
     self.amount = set_amount
-    self.min_temperature = disp_min_temp.u || "#{uncast_min_temperature} dC".u
+    self.min_temperature = disp_min_temp.present? ? disp_min_temp.u : "#{uncast_min_temperature} dC".u
     self.max_temperature = disp_max_temp.u || "#{uncast_max_temperature} dC".u
   end
   
