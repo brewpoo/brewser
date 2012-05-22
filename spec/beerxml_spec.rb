@@ -112,7 +112,7 @@ describe "BeerXML tests" do
       m.mash_steps.count.should == 2
       s=m.mash_steps[0]
       # @TODO Fix this
-      #s.index.should == 1
+      s.index.should == 1
       s.name.should == "Mash In"
       s.type.should == "Infusion"
       s.description.should_not be_nil
@@ -121,6 +121,16 @@ describe "BeerXML tests" do
       s.infusion_volume.should == "11.25 qt".u
       s.infusion_temperature.should == "170.5 dF".u
       s.water_to_grain_ratio.should == 1.25
+    end
+    
+    it "should deserialize the fermentation step data" do
+      f=@recipe.fermentation_schedule
+      f.fermentation_steps.count.should == 3
+      s=f.fermentation_steps[0]
+      s.index.should == 1
+      s.name.should == "Primary"
+      s.time.should == "4 days".u
+      s.temperature.should == "68 dF".u
     end
 
     it "should deserialize the water profile data" do
