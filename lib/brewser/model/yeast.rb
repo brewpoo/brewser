@@ -20,7 +20,7 @@ module Brewser
     # Recipes
     property :add_to_secondary?, Boolean
     property :form, String, :set => ['Liquid', 'Dry', 'Slant', 'Culture'], :required => true
-    property :amount, String, :required => true
+    property :amount, WeightOrVolume, :required => true
 
     # These are applicable only in Batches
     property :times_cultured, Integer

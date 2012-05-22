@@ -63,6 +63,12 @@ module Brewser::Model::Units
     end
   end
 
+  class WeightOrVolume < Units
+    def valid_kind?(value)
+      value.kind == :mass || value.kind == :volume
+    end
+  end
+  
   # A temperature, in deg C.
   class Temperature < Units
     def kind_of
