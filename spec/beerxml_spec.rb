@@ -25,7 +25,7 @@ describe "BeerXML tests" do
       @recipe.boil_time.kind.should == :time
       @recipe.boil_time.should == "60 min".u
       
-      @recipe.recipe_efficiency == 75.0
+      @recipe.recipe_efficiency.should == 72.0
       
       @recipe.estimated_og.should == 1.056
       @recipe.estimated_fg.should == 1.015
