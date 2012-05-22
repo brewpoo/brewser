@@ -90,7 +90,7 @@ module Brewser::Model::Units
   end
 
   # Time, but in days.
-  class TimeInDays < Units
+  class TimeInDays < Time
     def base_unit
       'days'
     end
