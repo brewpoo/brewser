@@ -7,11 +7,6 @@ module Brewser
     property :grain_temp, Temperature
     property :sparge_temp, Temperature
     
-    has n, :mash_steps
-    property :current_index, Integer, :default => 0
-    
-    def next_index
-      return self.current_index += 1
-    end
+    has n, :mash_steps    
   end
 end

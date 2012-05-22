@@ -3,7 +3,7 @@ module Brewser
   class MashStep < Model
     belongs_to :mash_schedule
     
-    property :index, Integer, :default => Proc.new { |this| this.mash_schedule.next_index}
+    property :index, Integer
     
     property :name, String, :required => true
     property :description, String, :length => 65535
