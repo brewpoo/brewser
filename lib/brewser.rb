@@ -13,8 +13,8 @@ module Brewser
       return BrewSON if BrewSON.acceptable?(string_or_io)
       return BeerXML2 if BeerXML2.acceptable?(string_or_io)
       return BeerXML if BeerXML.acceptable?(string_or_io)
-      return ProMashRec if ProMash.acceptable?(string_or_io)
       return ProMashTxt if ProMashTxt.acceptable?(string_or_io)
+      return ProMashRec if ProMash.acceptable?(string_or_io)
       raise "Brewson: unable to identify content"
     end
     
