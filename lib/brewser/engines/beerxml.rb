@@ -14,14 +14,18 @@ class BeerXML < Brewser::Engine
       begin
         outer = Nokogiri::XML(string_or_io).root
         # We expect to find a plural of one of the models
-        (outer>outer.node_name.singularize).map do |inner|
+        objects = (outer>outer.node_name.singularize).map do |inner|
           ("BeerXML::#{inner.node_name.downcase.camelcase}".constantize).from_xml(inner)
         end
+        return cleanup(objects)
      # rescue
      #   raise "Brewser: BeerXML encountered an issue and can not continue"
       end
     end
     
+    def cleanup(brewser_objects)
+      brewser_objects.each(&:cleanup)
+    end
  
   end
 end
@@ -65,11 +69,8 @@ class BeerXML::Hop < Brewser::Hop
   
   xml_reader :substitutes
   
-  def amount
+  def cleanup
     self.amount = display_amount.u || "#{uncast_amount} kg".u
-  end
-  
-  def time
     self.time = display_time.u || "#{uncast_time} min".u
   end
   
@@ -104,12 +105,9 @@ class BeerXML::Fermentable < Brewser::Fermentable
   xml_reader(:protein) {|x| x.to_f }
   xml_reader(:ibu_gal_per_lb) {|x| x.to_f }
   
-  def amount
-    display_amount.u || "#{uncast_amount} kg".u
-  end
-  
-  def potential
-    uncast_potential.to_f || (1.046*(yield_percent/100))    
+  def cleanup
+    self.amount = display_amount.u || "#{uncast_amount} kg".u
+    self.potential = uncast_potential.to_f || (1.046*(yield_percent/100))    
   end
   
 end
@@ -127,6 +125,7 @@ class BeerXML::Additive < Brewser::Additive
   
   xml_reader :display_amount
   xml_reader :amount_scalar, :from => "AMOUNT"
+  
   xml_reader :weight?, :from => "AMOUNT_IS_WEIGHT"
     
   xml_reader :added_when, :from => "USE"
@@ -137,14 +136,15 @@ class BeerXML::Additive < Brewser::Additive
   
   xml_reader :description, :from => "NOTES"
   
-  def amount
+  def set_amount
     return display_amount.u unless display_amount.blank?
     units = weight? ? "kg" : "l"
     return amount_scalar.u * units.u
   end
   
-  def time
-    display_time.u || "#{time} min".u
+  def cleanup
+    self.amount = set_amount
+    self.time = display_time.u || "#{time} min".u
   end
   
 end
@@ -181,18 +181,16 @@ class BeerXML::Yeast < Brewser::Yeast
 
   xml_reader :description, :from => "NOTES"
     
-  def amount
+  def set_amount
     return display_amount.u unless display_amount.blank?
     units = weight? ? "kg" : "l"
     return amount_scalar.u * units.u
   end
   
-  def min_temperature
-    disp_min_temp.u || "#{uncast_min_temperature} dC".u
-  end
-  
-  def max_temperature
-    disp_max_temp.u || "#{uncast_max_temperature} dC".u
+  def cleanup
+    self.amount = set_amount
+    self.min_temperature = disp_min_temp.u || "#{uncast_min_temperature} dC".u
+    self.max_temperature = disp_max_temp.u || "#{uncast_max_temperature} dC".u
   end
   
 end
@@ -223,16 +221,11 @@ class BeerXML::MashStep < Brewser::MashStep
   
   xml_reader :uncast_infusion_temperature, :from => "INFUSE_TEMP" 
   
-  def infusion_volume
-    display_infuse_amt.u || "#{uncast_incustion_volume} ".u
-  end
-  
-  def infusion_temperature
-    uncast_infusion_temperature.u
-  end
-  
-  def rest_temperature
-    "#{uncast_rest_temperature} dC".u
+  def cleanup
+    self.index = mash_schedule.mash_steps.index(self)+1
+    self.infusion_volume = display_infuse_amt.u || "#{uncast_incustion_volume} ".u
+    self.infusion_temperature = uncast_infusion_temperature.u
+    self.rest_temperature = "#{uncast_rest_temperature} dC".u
   end
   
 end
@@ -253,37 +246,21 @@ class BeerXML::MashSchedule < Brewser::MashSchedule
   
   xml_attr :mash_steps, :as => [BeerXML::MashStep], :in => "MASH_STEPS"
   
-  def grain_temp
-    display_grain_temp.u || "#{uncaset_grain_temp} dC".u
+  def cleanup
+    mash_steps.each do |m|
+      m.cleanup
+    end
+    self.grain_temp = display_grain_temp.u || "#{uncaset_grain_temp} dC".u
+    self.sparge_temp = display_sparge_temp.u || "#{uncast_sparge_temp} dC".u
   end
   
-  def sparge_temp
-    display_sparge_temp.u || "#{uncast_sparge_temp} dC".u
-  end
 end
 
 class BeerXML::FermentationStep < Brewser::FermentationStep
-  include ROXML
-  
-  xml_name "RECIPE"
-  xml_convention :upcase
-  xml_reader :primary_age
-  xml_reader :primary_temp
-  xml_reader :secondary_age
-  xml_reader :secondary_temp
-  xml_reader :tertiary_age
-  xml_reader :teritary_temp
-  xml_reader :age
-  xml_reader :temp
-  
+    
 end
 
-class BeerXML::FermentationSchedule < Brewser::FermentationSchedule
-  include ROXML
-  
-  xml_name "RECIPE" # Fermentation data is stored at the recipe level in v1
-  xml_convention :upcase
-  xml_attr :fermentation_steps, :as => [BeerXML::FermentationStep]
+class BeerXML::FermentationSchedule < Brewser::FermentationSchedule 
   
 end
 
@@ -302,6 +279,10 @@ class BeerXML::WaterProfile < Brewser::WaterProfile
   xml_reader(:alkalinity, :from => "ALKALINITY") {|x| x.to_f }
   xml_reader(:ph, :from => "PH") {|x| x.to_f }
   xml_reader :description, :from => "NOTES"
+  
+  def cleanup
+    # nothing to do here
+  end
 end
 
 
@@ -336,6 +317,9 @@ class BeerXML::Style < Brewser::Style
   # xml_reader :profile
   # xml_reader :ingredients
   # xml_reader :examples
+  def cleanup
+    # nothing to do here
+  end
 end
 
 class BeerXML::Recipe < Brewser::Recipe
@@ -349,14 +333,18 @@ class BeerXML::Recipe < Brewser::Recipe
   
   xml_attr :style, :as => BeerXML::Style
   xml_attr :mash_schedule, :as => BeerXML::MashSchedule
-  xml_attr :fermentation_schedule, :as => BeerXML::FermentationSchedule
   xml_attr :water_profile, :as => BeerXML::WaterProfile, :in => "WATERS"
   
   xml_reader :brewer
   
-  xml_reader :recipe_volume, :from => "BATCH_SIZE", :as => Float
-  xml_reader :boil_volume, :from => "BOIL_SIZE", :as => Float
-  xml_reader :boil_time, :as => Integer
+  xml_reader :display_batch_size
+  xml_reader :uncast_batch_size, :from => "BATCH_SIZE"
+  
+  xml_reader :display_boil_size
+  xml_reader :uncast_boil_size, :from => "BOIL_SIZE"
+  
+  xml_reader(:boil_time) { |x| "#{x} min".u }
+  
   xml_reader :recipe_efficiency, :from => "EFFICIENCY", :as => Float
   xml_reader :carbonation_level, :from => "CARBONATION", :as => Float
 
@@ -373,5 +361,44 @@ class BeerXML::Recipe < Brewser::Recipe
   xml_attr :yeasts, :as => [BeerXML::Yeast], :in => "YEASTS"
   
   xml_reader :description, :from => "NOTES"
+  
+  xml_reader :primary_age, :from => "PRIMARY_AGE"
+  xml_reader :display_primary_temp
+  xml_reader :uncast_primary_temp, :from => "PRIMARY_TEMP"
+  
+  xml_reader :secondary_age, :from => "SECONDARY_AGE"
+  xml_reader :display_secondary_temp
+  xml_reader :uncast_secondary_temp, :from => "SECONDARY_TEMP"
+  
+  xml_reader :tertiary_age, :from => "TERTIARY_AGE"
+  xml_reader :display_tertiary_temp
+  xml_reader :uncast_teritary_temp, :from => "TERTIARY_TEMP"
+  
+  xml_reader :age, :from => "AGE"
+  xml_reader :display_temp, :from => "DISPLAY_AGE_TEMP"
+  xml_reader :uncast_age_temp, :from => "TEMP"
+  
+  def cleanup
+    self.recipe_volume = display_batch_size.u || "#{uncast_batch_size} l".u
+    self.boil_volume = display_boil_size.u || "#{uncast_boil_size} l".u
+    mash_schedule.cleanup
+    hops.each(&:cleanup)
+    fermentables.each(&:cleanup)
+    additives.each(&:cleanup)
+    yeasts.each(&:cleanup)
+    current_index = 1
+    self.fermentation_schedule = BeerXML::FermentationSchedule.create
+    ["primary_age","secondary_age","tertiary_age","age"].each do |stage|
+      if self.send(stage).present? && self.send(stage).to_i > 0
+        current_step = BeerXML::FermentationStep.new
+        current_step.name = stage.split("_")[0].capitalize
+        current_step.index = current_index
+        current_index += 1
+        current_step.time = "#{self.send(stage)} days".u
+        current_step.temperature = self.send("display_#{stage.gsub("age","temp")}").u
+        self.fermentation_schedule.fermentation_steps.push current_step
+      end
+    end
+        
+  end
 end
-
