@@ -1,0 +1,128 @@
+Victory IPA
+
+A ProMash Recipe Report
+
+AHA Style and Style Guidelines
+-------------------------------
+
+07-0  India Pale Ale, India Pale Ale
+
+Min OG:  1.050   Max OG:  1.075
+Min IBU:    40   Max IBU:    60
+Min Clr:     8   Max Clr:    14  Color in SRM, Lovibond
+
+Recipe Specifics
+----------------
+
+Batch Size (Gal):         6.00    Wort Size (Gal):    6.00
+Total Grain (Lbs):       12.00
+Anticipated OG:          1.059    Plato:             14.52
+Anticipated SRM:          11.0
+Anticipated IBU:          53.5
+Brewhouse Efficiency:       80 %
+Wort Boil Time:             60    Minutes
+
+Pre-Boil Amounts
+----------------
+
+Evaporation Rate:      15.00    Percent Per Hour
+Pre-Boil Wort Size:    7.06    Gal
+Pre-Boil Gravity:      1.050    SG          12.44  Plato
+
+Formulas Used
+-------------
+
+Brewhouse Efficiency and Predicted Gravity based on Method #1, Potential Used.
+Final Gravity Calculation Based on Points.
+Hard Value of Sucrose applied. Value for recipe: 46.2100 ppppg
+Yield Type used in Gravity Prediction: Fine Grind Dry Basis.
+
+Color Formula Used:   Morey
+Hop IBU Formula Used: Rager
+
+
+Grain/Extract/Sugar
+
+   %     Amount     Name                          Origin        Potential SRM
+-----------------------------------------------------------------------------
+ 66.7     8.00 lbs. Pale Malt(2-row)              Great Britain  1.038      3
+ 12.5     1.50 lbs. Victory Malt                  America        1.034     25
+  8.3     1.00 lbs. Munich Malt(2-row)            America        1.035      6
+  4.2     0.50 lbs. Soft White Wheat Malt         America        1.040      3
+  4.2     0.50 lbs. Crystal 80L                                  1.033     80
+  4.2     0.50 lbs. Cara-Pils Dextrine Malt                      1.033      2
+
+Potential represented as SG per pound per gallon.
+
+
+Hops
+
+   Amount     Name                              Form    Alpha  IBU  Boil Time
+-----------------------------------------------------------------------------
+  3.00 oz.    Cascade                           Whole    4.35  46.6  60 min.
+  2.00 oz.    Cascade                           Whole    4.35   5.2  5 min.
+  0.50 oz.    Goldings - E.K.                   Whole    5.75   1.7  5 min.
+  0.50 oz.    Cascade                           Whole    5.75   0.0  Dry Hop
+
+
+Extras
+
+  Amount      Name                           Type      Time
+--------------------------------------------------------------------------
+  1.00 Tsp    Irish Moss                     Fining    15 Min.(boil) 
+
+
+Yeast
+-----
+
+White Labs WLP001 California Ale
+
+
+Water Profile
+-------------
+
+Profile:           Marin Tap Water
+Profile known for: 
+
+Calcium(Ca):          12.0 ppm
+Magnesium(Mg):        10.0 ppm
+Sodium(Na):           15.0 ppm
+Sulfate(SO4):         17.0 ppm
+Chloride(Cl):         13.0 ppm
+biCarbonate(HCO3):    74.0 ppm
+
+pH: 8.31
+
+
+Mash Schedule
+-------------
+
+Mash Name: Full Bodied Ale Double Infusion
+
+Total Grain Lbs:   12.00
+Total Water Qts:   13.00 - Before Additional Infusions
+Total Water Gal:    3.25 - Before Additional Infusions
+
+Tun Thermal Mass:   0.00
+Grain Temp:        80.00 F
+
+
+                     Step   Rest   Start   Stop  Heat     Infuse   Infuse  Infuse
+Step Name            Time   Time   Temp    Temp  Type     Temp     Amount  Ratio
+---------------------------------------------------------------------------------
+Protein                5     60    124     122   Infuse   132       13.00   1.08
+Saccharification       5     30    158     155   Infuse   210       10.66   1.97
+Mashout               15     10    175     175   Infuse   210       14.89   3.21
+
+
+Total Water Qts:           38.55 - After Additional Infusions
+Total Water Gal:            9.64 - After Additional Infusions
+Total Mash Volume Gal:     10.60 - After Additional Infusions
+
+All temperature measurements are degrees Fahrenheit.
+All infusion amounts are in Quarts.
+All infusion ratios are Quarts/Lbs.
+
+
+
+
