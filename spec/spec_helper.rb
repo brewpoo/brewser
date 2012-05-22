@@ -17,7 +17,7 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   
   def filename(file)
-    "samples/#{file}.xml"
+    "samples/#{file}"
   end
   def read_file(file)
     File.read(filename(file))

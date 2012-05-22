@@ -5,7 +5,7 @@ describe "BeerXML tests" do
   context "BeerXML v1" do
     
     before :each do
-      @recipe = Brewser.parse(read_file('beerxmlv1/recipes')).first
+      @recipe = Brewser.parse(read_file('beerxmlv1/recipes.xml')).first
     end
     
     it "should deserialize the base recipe data" do
