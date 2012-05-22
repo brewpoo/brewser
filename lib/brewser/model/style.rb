@@ -7,15 +7,15 @@ module Brewser
     property :category_number, String, :required => true
     property :style_letter, String, :required => true
     property :style_guide, String, :required => true
-    property :type, String, :set => %w(Lager Ale Mead Wheat Mixed Cider), :required => true
-    property :og_min, Float, :required => true
-    property :og_max, Float, :required => true
-    property :fg_min, Float, :required => true
-    property :fg_max, Float, :required => true
-    property :ibu_min, Float, :required => true
-    property :ibu_max, Float, :required => true
-    property :color_min, Float, :required => true
-    property :color_max, Float, :required => true
+    property :type, String, :set => %w(Lager Ale Mead Wheat Mixed Cider)
+    property :og_min, Float
+    property :og_max, Float
+    property :fg_min, Float
+    property :fg_max, Float
+    property :ibu_min, Float
+    property :ibu_max, Float
+    property :color_min, Float
+    property :color_max, Float
 
     property :carb_min, Float
     property :carb_max, Float
