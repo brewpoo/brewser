@@ -5,3 +5,5 @@ pkg/*
 coverage/*
 doc/*
 .yardoc/*
+.DS_Store
+
