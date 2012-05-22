@@ -8,6 +8,10 @@ Unit.redefine!('fahrenheit') do |fahrenheit|
   fahrenheit.aliases  = %w{degF dF F fahrenheit}
 end
 
+Unit.redefine!('gram') do |gram|
+  gram.aliases  = %w{g gm gram grams gramme grammes}
+end
+
 Unit.define('barrel') do |barrel|
   barrel.definition = Unit('31 gal')
   barrel.aliases    = %w{bbl bbls barrel barrels}
