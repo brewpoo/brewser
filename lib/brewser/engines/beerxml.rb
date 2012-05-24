@@ -47,7 +47,10 @@ class BeerXML::Hop < Brewser::Hop
   xml_reader :description, :from => "NOTES"
   
   xml_reader :type
-  xml_reader :form
+  xml_reader(:form) { |x| 
+    x="Whole" if x=="Leaf"
+    x
+  }
   
   xml_reader :display_amount
   xml_reader :uncast_amount, :from => "AMOUNT"
@@ -55,7 +58,11 @@ class BeerXML::Hop < Brewser::Hop
   xml_reader :display_time
   xml_reader :uncast_time, :from => "TIME"
   
-  xml_reader :added_when, :from => "USE"
+  xml_reader(:added_when, :from => "USE") { |x|
+    x="Dry" if x=="Dry Hop"
+    x="FWH" if x=="First Wort"
+    x
+    }
   
   xml_reader :alpha_acids, :from => "ALPHA", :as => Float
   xml_reader :beta_acids, :from => "BETA", :as => Float
