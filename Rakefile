@@ -16,5 +16,5 @@ end
 require 'yard'
 YARD::Rake::YardocTask.new(:doc) do |t|
   version = Brewser::VERSION
-  t.options = ["--title", "brewser #{version}", "--files", "LICENSE"]
+  t.options = ["--title", "brewser #{version}", "--files", "MIT-LICENSE"]
 end
