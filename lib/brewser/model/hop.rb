@@ -8,11 +8,11 @@ module Brewser
     property :type, String, :set => ['Bittering', 'Aroma', 'Both']
     property :alpha_acids, Float, :required => true
     property :beta_acids, Float
-    property :added_when, String, :set => ['Boil', 'Dry Hop', 'Mash', 'First Wort', 'Aroma', 'Hop Back', 'Infuser'], :required => true
+    property :added_when, String, :set => ['Boil', 'Dry', 'Mash', 'FWH', 'Aroma', 'Hop Back', 'Infuser'], :required => true
     property :time, Time
     property :amount, Weight   
     
-    property :form, String, :set => ['Pellet', 'Plug', 'Leaf']
+    property :form, String, :set => ['Pellet', 'Plug', 'Whole']
     
     property :storageability, Float
     property :origin, String, :length => 512
