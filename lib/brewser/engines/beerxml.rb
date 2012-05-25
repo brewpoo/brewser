@@ -414,6 +414,8 @@ class BeerXML::Recipe < Brewser::Recipe
       if self.send(stage).present? && self.send(stage).to_i > 0
         current_step = BeerXML::FermentationStep.new
         current_step.name = stage.split("_")[0].capitalize
+        current_step.purpose = current_step.name
+        current_step.purpose = "Conditioning" if current_step.purpose == "Age"
         current_step.index = current_index
         current_index += 1
         current_step.time = "#{self.send(stage)} days".u
