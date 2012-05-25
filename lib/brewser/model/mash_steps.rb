@@ -19,10 +19,6 @@ module Brewser
     
     property :rest_temperature, Temperature, :required => true
     property :rest_time, Time, :required => true
-    
-    validates_presence_of :infusion_volume, :if => proc { |t| t.type == 'Infusion' }
-    validates_presence_of :infusion_temperature, :if => proc { |t| t.type == 'Infusion' }
-    
   end
   
 end
