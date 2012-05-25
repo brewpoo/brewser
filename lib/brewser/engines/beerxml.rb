@@ -137,7 +137,10 @@ class BeerXML::Additive < Brewser::Additive
   
   xml_reader :weight?, :from => "AMOUNT_IS_WEIGHT"
     
-  xml_reader :added_when, :from => "USE"
+  xml_reader(:added_when, :from => "USE") { |x|
+    x="Packaging" if x == "Bottling"
+    x
+  }
   xml_reader :use_for
   
   xml_reader :display_time
