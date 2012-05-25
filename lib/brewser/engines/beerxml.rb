@@ -318,29 +318,10 @@ class BeerXML::Style < Brewser::Style
   xml_reader :style_letter
   xml_reader :style_guide
   xml_reader(:type) { |x| 
-    x="Other" if x=="Wheat" or x=="Mixed" or x=="Hybrid"
+    x="Hybrid" if x=="Mixed"
     x
   }
   
-  # Don't really need these:
-  # xml_reader :og_min
-  # xml_reader :og_max
-  # xml_reader :fg_min
-  # xml_reader :fg_max
-  # xml_reader :ibu_min
-  # xml_reader :ibu_max
-  # xml_reader :color_min
-  # xml_reader :color_max
-  # 
-  # xml_reader :carb_min
-  # xml_reader :carb_max
-  # xml_reader :abv_min
-  # xml_reader :abv_max
-  # 
-  # xml_reader :notes
-  # xml_reader :profile
-  # xml_reader :ingredients
-  # xml_reader :examples
   def cleanup
     # nothing to do here
   end

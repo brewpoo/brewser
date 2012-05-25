@@ -6,7 +6,7 @@ module Brewser
     property :name, String, :required => true
     property :description, String, :length => 65535
 
-    property :type, String, :set => ['Ale', 'Lager', 'Cider', 'Mead', 'Hybrid']
+    property :type, String, :set => ['Ale', 'Lager', 'Wheat', 'Cider', 'Mead', 'Hybrid']
     property :method, String, :set => ['Extract', 'Partial Mash', 'All Grain'], :required => true
     
     has 1, :style
