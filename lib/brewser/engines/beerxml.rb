@@ -61,6 +61,7 @@ class BeerXML::Hop < Brewser::Hop
   xml_reader(:added_when, :from => "USE") { |x|
     x="Dry" if x=="Dry Hop"
     x="FWH" if x=="First Wort"
+    x="Boil" if x =="Aroma"
     x
     }
   
