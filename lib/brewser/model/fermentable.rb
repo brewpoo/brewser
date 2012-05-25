@@ -10,6 +10,8 @@ module Brewser
     property :type, String, :set => ['Grain', 'Sugar', 'Extract', 'Dry Extract', 'Adjunct'], :required => true
     property :yield_percent, Float
     property :potential, Float, :required => true
+    property :ppg, Integer
+    
     property :color, Float, :required => true
 
     property :amount, Weight, :required => true
