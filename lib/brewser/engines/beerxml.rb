@@ -228,7 +228,7 @@ class BeerXML::MashStep < Brewser::MashStep
   xml_reader :uncast_infusion_volume, :from => "INFUSE_AMOUNT"
   xml_reader :display_infuse_amt
   
-  xml_reader :uncast_infusion_temperature, :from => "INFUSE_TEMP" 
+  xml_reader(:infusion_temperature, :from => "INFUSE_TEMP") { |x| x.u }
     
   property :step_volume, Volume
   property :ramp_time, Time
@@ -239,7 +239,7 @@ class BeerXML::MashStep < Brewser::MashStep
   def cleanup
     self.index = mash_schedule.mash_steps.index(self)+1
     self.infusion_volume = display_infuse_amt.present? ? display_infuse_amt.u : "#{uncast_infusion_volume} l".u unless !uncast_infusion_volume.present? or uncast_infusion_volume == 0
-    self.infusion_temperature = "#{uncast_infusion_temperature.u} dC".u if uncast_infusion_temperature.present? if uncast_infusion_temperature.present?
+   # self.infusion_temperature = uncast_infusion_temperature.u if uncast_infusion_temperature.present?
     self.rest_temperature = "#{uncast_rest_temperature} dC".u
   end
   
@@ -311,7 +311,10 @@ class BeerXML::Style < Brewser::Style
   xml_reader :category_number
   xml_reader :style_letter
   xml_reader :style_guide
-  xml_reader :type
+  xml_reader(:type) { |x| 
+    x="Other" if x=="Wheat" or x=="Mixed" or x=="Hybrid"
+    x
+  }
   
   # Don't really need these:
   # xml_reader :og_min
@@ -344,7 +347,7 @@ class BeerXML::Recipe < Brewser::Recipe
   xml_convention :upcase
   xml_reader :date_created, :from => "DATE"
   xml_reader :name
-  xml_reader :type
+  xml_reader :method, :from => "TYPE"
   
   xml_attr :style, :as => BeerXML::Style
   xml_attr :mash_schedule, :as => BeerXML::MashSchedule
@@ -396,6 +399,7 @@ class BeerXML::Recipe < Brewser::Recipe
   def cleanup
     self.recipe_volume = display_batch_size.present? ? display_batch_size.u : "#{uncast_batch_size} l".u 
     self.boil_volume = display_boil_size.present? ? display_boil_size.u : "#{uncast_boil_size} l".u
+    self.type = style.type
     mash_schedule.cleanup
     hops.each(&:cleanup)
     fermentables.each(&:cleanup)

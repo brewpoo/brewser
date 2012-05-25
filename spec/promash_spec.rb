@@ -11,7 +11,7 @@ describe "ProMash tests" do
     it "should deserialize the base recipe data" do
       @recipe.class.should == ProMashTxt::Recipe
       @recipe.name.should == "Victory IPA"
-      @recipe.type.should == "All Grain"
+      @recipe.method.should == "All Grain"
       
       @recipe.recipe_volume.class.should == Unit
       @recipe.recipe_volume.kind.should == :volume

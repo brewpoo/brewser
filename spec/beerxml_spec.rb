@@ -11,7 +11,8 @@ describe "BeerXML tests" do
     it "should deserialize the base recipe data" do
       @recipe.name.should == "Burton Ale"
       @recipe.brewer.should == "Brad Smith"
-      @recipe.type.should == "All Grain"
+      @recipe.method.should == "All Grain"
+      @recipe.type.should == "Ale"
       
       @recipe.recipe_volume.class.should == Unit
       @recipe.recipe_volume.kind.should == :volume

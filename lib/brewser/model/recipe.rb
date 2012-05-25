@@ -6,7 +6,8 @@ module Brewser
     property :name, String, :required => true
     property :description, String, :length => 65535
 
-    property :type, String, :set => ['Extract', 'Partial Mash', 'All Grain'], :required => true
+    property :type, String, :set => ['Ale', 'Lager', 'Cider', 'Mead', 'Hybrid']
+    property :method, String, :set => ['Extract', 'Partial Mash', 'All Grain'], :required => true
     
     has 1, :style
     validates_presence_of :style
@@ -16,7 +17,7 @@ module Brewser
     property :boil_volume, Volume, :required => true
     property :boil_time, Time, :required => true
     property :recipe_efficiency, Float
-    validates_presence_of :recipe_efficiency, :if => proc { |t| t.type != 'Extract' }
+    validates_presence_of :recipe_efficiency, :if => proc { |t| t.method != 'Extract' }
 
     has n, :hops
     has n, :fermentables
@@ -42,7 +43,7 @@ module Brewser
         
     property :carbonation_level, Float
   
-    validates_presence_of :mash_schedule, :if => proc { |t| t.type != 'Extract' }
+    validates_presence_of :mash_schedule, :if => proc { |t| t.method != 'Extract' }
     
   end
 

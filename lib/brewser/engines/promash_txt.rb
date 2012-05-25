@@ -155,7 +155,7 @@ class ProMashTxt::Recipe < Brewser::Recipe
     # Wort Boil Time:             60    Minutes
     # Can't tell the difference between P/M and A/G so use A/G
     raise "ProMashTxt: Unable to find recipe specifics" unless pointer = array.index("Recipe Specifics")
-    self.type = /Total Grain/.match(array[pointer+3]).nil? ? "Extract" : "All Grain"
+    self.method = /Total Grain/.match(array[pointer+3]).nil? ? "Extract" : "All Grain"
     /Batch Size \((?<volume_unit>\w+)\):\s*(?<batch_size>\S*)\s*Wort Size \(\w*\):\s*(?<boil_size>\S*)/.match(array[pointer+2]) do |match|
       self.recipe_volume = "#{match[:batch_size]} #{match[:volume_unit].downcase}".u
       self.boil_volume = "#{match[:boil_size]} #{match[:volume_unit].downcase}".u
@@ -169,7 +169,7 @@ class ProMashTxt::Recipe < Brewser::Recipe
     /Anticipated IBU:\s*(?<anticipated_ibu>\S*)/.match(array[pointer+6]) do |match|
       self.estimated_ibu = match[:anticipated_ibu].to_f
     end
-    if type == "All Grain"
+    if method == "All Grain"
       /Brewhouse Efficiency:\s*(?<recipe_efficiency>\S*)/.match(array[pointer+7]) do |match|
         self.recipe_efficiency = match[:recipe_efficiency].to_f
       end
