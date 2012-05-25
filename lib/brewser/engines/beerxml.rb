@@ -151,7 +151,7 @@ class BeerXML::Additive < Brewser::Additive
   def set_amount
     return display_amount.u unless display_amount.blank?
     units = weight? ? "kg" : "l"
-    return amount_scalar.u * units.u
+    return "#{amount_scalar} #{units}".u
   end
   
   def cleanup
@@ -196,7 +196,7 @@ class BeerXML::Yeast < Brewser::Yeast
   def set_amount
     return display_amount.u unless display_amount.blank?
     units = weight? ? "kg" : "l"
-    return amount_scalar.u * units.u
+    return "#{amount_scalar} #{units}".u
   end
   
   def cleanup

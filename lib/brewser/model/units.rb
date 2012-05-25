@@ -64,8 +64,11 @@ module Brewser::Model::Units
   end
 
   class WeightOrVolume < Units
+    
     def valid_kind?(value)
       value.kind == :mass || value.kind == :volume
+    end
+    def base_unit
     end
   end
   
