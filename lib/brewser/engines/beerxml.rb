@@ -115,7 +115,8 @@ class BeerXML::Fermentable < Brewser::Fermentable
   
   def cleanup
     self.amount = display_amount.present? ? display_amount.u : "#{uncast_amount} kg".u
-    self.potential = uncast_potential.to_f || (1.046*(yield_percent/100))    
+    self.potential = uncast_potential.present? ? uncast_potential.to_f : 1+(46*(yield_percent/100))/1000
+    self.ppg = (potential-1)*1000
   end
   
 end
