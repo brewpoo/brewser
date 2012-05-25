@@ -18,8 +18,8 @@ class BeerXML < Brewser::Engine
           ("BeerXML::#{inner.node_name.downcase.camelcase}".constantize).from_xml(inner)
         end
         return cleanup(objects)
-     rescue
-       raise "Brewser: BeerXML encountered an issue and can not continue"
+     # rescue
+     #   raise "Brewser: BeerXML encountered an issue and can not continue"
       end
     end
     
@@ -228,7 +228,7 @@ class BeerXML::MashStep < Brewser::MashStep
   xml_reader :uncast_infusion_volume, :from => "INFUSE_AMOUNT"
   xml_reader :display_infuse_amt
   
-  xml_reader(:infusion_temperature, :from => "INFUSE_TEMP") { |x| x.u }
+  xml_reader :infusion_temperature, :from => "INFUSE_TEMP"
     
   property :step_volume, Volume
   property :ramp_time, Time
@@ -239,7 +239,10 @@ class BeerXML::MashStep < Brewser::MashStep
   def cleanup
     self.index = mash_schedule.mash_steps.index(self)+1
     self.infusion_volume = display_infuse_amt.present? ? display_infuse_amt.u : "#{uncast_infusion_volume} l".u unless !uncast_infusion_volume.present? or uncast_infusion_volume == 0
-   # self.infusion_temperature = uncast_infusion_temperature.u if uncast_infusion_temperature.present?
+    if infusion_temperature.present?
+      self.infusion_temperature
+      self.infusion_temperature = infusion_temperature.unitless? ? infusion_temperature*"1 C".u : infusion_temperature
+    end
     self.rest_temperature = "#{uncast_rest_temperature} dC".u
   end
   
