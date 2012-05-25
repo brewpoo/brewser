@@ -78,8 +78,8 @@ class BeerXML::Hop < Brewser::Hop
   xml_reader :substitutes
   
   def cleanup
-    self.amount = display_amount.u || "#{uncast_amount} kg".u
-    self.time = display_time.u || "#{uncast_time} min".u
+    self.amount = display_amount.present? ? display_amount.u : "#{uncast_amount} kg".u
+    self.time = display_time.present? ? display_time.u : "#{uncast_time} min".u
   end
   
 end
@@ -114,7 +114,7 @@ class BeerXML::Fermentable < Brewser::Fermentable
   xml_reader(:ibu_gal_per_lb) {|x| x.to_f }
   
   def cleanup
-    self.amount = display_amount.u || "#{uncast_amount} kg".u
+    self.amount = display_amount.present? ? display_amount.u : "#{uncast_amount} kg".u
     self.potential = uncast_potential.to_f || (1.046*(yield_percent/100))    
   end
   
@@ -152,7 +152,7 @@ class BeerXML::Additive < Brewser::Additive
   
   def cleanup
     self.amount = set_amount
-    self.time = display_time.u || "#{time} min".u
+    self.time = display_time.present? ? display_time.u : "#{time} min".u
   end
   
 end
@@ -198,7 +198,7 @@ class BeerXML::Yeast < Brewser::Yeast
   def cleanup
     self.amount = set_amount
     self.min_temperature = disp_min_temp.present? ? disp_min_temp.u : "#{uncast_min_temperature} dC".u
-    self.max_temperature = disp_max_temp.u || "#{uncast_max_temperature} dC".u
+    self.max_temperature = disp_max_temp.present? ? disp_max_temp.u : "#{uncast_max_temperature} dC".u
   end
   
 end
@@ -217,7 +217,7 @@ class BeerXML::MashStep < Brewser::MashStep
     x
   }
  
-  xml_reader :ramp_time
+  xml_reader(:ramp_time) { |x| "#{x} min".u }
   xml_reader(:rest_time, :from => "STEP_TIME") { |x| "#{x} min".u }
   
   xml_reader :uncast_rest_temperature, :from => "STEP_TEMP"
@@ -228,11 +228,17 @@ class BeerXML::MashStep < Brewser::MashStep
   xml_reader :display_infuse_amt
   
   xml_reader :uncast_infusion_temperature, :from => "INFUSE_TEMP" 
+    
+  property :step_volume, Volume
+  property :ramp_time, Time
+    
+  property :rest_temperature, Temperature, :required => true
+  property :rest_time, Time, :required => true
   
   def cleanup
     self.index = mash_schedule.mash_steps.index(self)+1
-    self.infusion_volume = display_infuse_amt.u || "#{uncast_incustion_volume} ".u
-    self.infusion_temperature = uncast_infusion_temperature.u
+    self.infusion_volume = display_infuse_amt.present? ? display_infuse_amt.u : "#{uncast_infusion_volume} l".u unless !uncast_infusion_volume.present? or uncast_infusion_volume == 0
+    self.infusion_temperature = "#{uncast_infusion_temperature.u} dC".u if uncast_infusion_temperature.present? if uncast_infusion_temperature.present?
     self.rest_temperature = "#{uncast_rest_temperature} dC".u
   end
   
@@ -258,8 +264,8 @@ class BeerXML::MashSchedule < Brewser::MashSchedule
     mash_steps.each do |m|
       m.cleanup
     end
-    self.grain_temp = display_grain_temp.u || "#{uncaset_grain_temp} dC".u
-    self.sparge_temp = display_sparge_temp.u || "#{uncast_sparge_temp} dC".u
+    self.grain_temp = display_grain_temp.present? ? display_grain_temp.u : "#{uncast_grain_temp} dC".u
+    self.sparge_temp = display_sparge_temp.present? ? display_sparge_temp.u : "#{uncast_sparge_temp} dC".u
   end
   
 end
@@ -387,8 +393,8 @@ class BeerXML::Recipe < Brewser::Recipe
   xml_reader :uncast_age_temp, :from => "TEMP"
   
   def cleanup
-    self.recipe_volume = display_batch_size.u || "#{uncast_batch_size} l".u
-    self.boil_volume = display_boil_size.u || "#{uncast_boil_size} l".u
+    self.recipe_volume = display_batch_size.present? ? display_batch_size.u : "#{uncast_batch_size} l".u 
+    self.boil_volume = display_boil_size.present? ? display_boil_size.u : "#{uncast_boil_size} l".u
     mash_schedule.cleanup
     hops.each(&:cleanup)
     fermentables.each(&:cleanup)
@@ -403,7 +409,9 @@ class BeerXML::Recipe < Brewser::Recipe
         current_step.index = current_index
         current_index += 1
         current_step.time = "#{self.send(stage)} days".u
-        current_step.temperature = self.send("display_#{stage.gsub("age","temp")}").u
+        display = "display_#{stage.gsub("age","temp")}"
+        uncast = "uncast_#{stage.gsub("age","temp")}"
+        current_step.temperature = self.send(display).present? ? self.send(display).u : "#{self.send(uncast)} dC".u
         self.fermentation_schedule.fermentation_steps.push current_step
       end
     end
