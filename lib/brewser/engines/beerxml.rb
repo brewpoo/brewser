@@ -384,7 +384,7 @@ class BeerXML::Recipe < Brewser::Recipe
   xml_attr :additives, :as => [BeerXML::Additive], :in => "MISCS"
   xml_attr :yeasts, :as => [BeerXML::Yeast], :in => "YEASTS"
   
-  xml_reader :description, :from => "NOTES"
+  xml_reader :description, :from => "TASTE_NOTES"
   
   xml_reader :primary_age, :from => "PRIMARY_AGE"
   xml_reader :display_primary_temp
