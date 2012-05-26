@@ -322,6 +322,24 @@ class BeerXML::Style < Brewser::Style
     x="Hybrid" if x=="Mixed"
     x
   }
+  xml_attr :og_min
+  xml_attr :og_max
+  xml_attr :fg_min
+  xml_attr :fg_max
+  xml_attr :ibu_min
+  xml_attr :ibu_max
+  xml_attr :color_min
+  xml_attr :color_max
+
+  xml_attr :carb_min
+  xml_attr :carb_max
+  xml_attr :abv_min
+  xml_attr :abv_max
+	
+  xml_attr :notes
+  xml_attr :profile
+  xml_attr :ingredients
+  xml_attr :examples
   
   def cleanup
     # nothing to do here
