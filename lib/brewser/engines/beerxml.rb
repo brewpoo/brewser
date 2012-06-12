@@ -19,7 +19,7 @@ class BeerXML < Brewser::Engine
         end
         return cleanup(objects)
      # rescue
-     #   raise "Brewser: BeerXML encountered an issue and can not continue"
+     #   raise Error, "BeerXML engine encountered an issue and can not continue"
       end
     end
     

@@ -3,7 +3,11 @@ class ProMashTxt < Brewser::Engine
   class << self
     
     def acceptable?(q)
-      q.match("A ProMash Recipe Report") ? true : false
+      begin
+        q.match("A ProMash Recipe Report") ? true : false
+      rescue
+        false
+      end
     end
   
     def deserialize(string)
@@ -120,7 +124,7 @@ class ProMashTxt::Style < Brewser::Style
     elsif pointer = array.index("AHA Style and Style Guidelines")
       self.style_guide = "AHA"
     else
-      raise "ProMashTxt: Unable to find style guideline"
+      raise Error, "ProMashTxt engine: unable to find style guideline"
     end
     # Line @ pointer should look like this:
     # 06-B  American Pale Ales, American Amber Ale    
@@ -131,7 +135,7 @@ class ProMashTxt::Style < Brewser::Style
       self.category_number = match_data[:category_number]
       self.style_letter = match_data[:style_letter]
     else
-      raise "ProMashTxt: Unable to extract style details"
+      raise Error, "ProMashTxt engine: Unable to extract style details"
     end
     return self
   end
@@ -154,7 +158,7 @@ class ProMashTxt::Recipe < Brewser::Recipe
     # Brewhouse Efficiency:       80 %
     # Wort Boil Time:             60    Minutes
     # Can't tell the difference between P/M and A/G so use A/G
-    raise "ProMashTxt: Unable to find recipe specifics" unless pointer = array.index("Recipe Specifics")
+    raise Error, "ProMashTxt engine: Unable to find recipe specifics" unless pointer = array.index("Recipe Specifics")
     self.method = /Total Grain/.match(array[pointer+3]).nil? ? "Extract" : "All Grain"
     /Batch Size \((?<volume_unit>\w+)\):\s*(?<batch_size>\S*)\s*Wort Size \(\w*\):\s*(?<boil_size>\S*)/.match(array[pointer+2]) do |match|
       self.recipe_volume = "#{match[:batch_size]} #{match[:volume_unit].downcase}".u

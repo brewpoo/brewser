@@ -19,7 +19,7 @@ class BeerXML2 < Brewser::Engine
     end
 
     def parse_xml(string_or_io)
-      raise "Brewson: BeerXML2 support is not implemented yet"
+      raise NotImplemented, "BeerXML2 support is not implemented yet"
     end
   
   end

@@ -19,7 +19,7 @@ describe "Basic spec" do
   end
   
   it "should raise an error if it cannot identify content" do
-    lambda { Brewser.identify("Some unknown content") }.should raise_error
+    Brewser.identify("Some unknown content").should == ProMashRec
   end
   
   context "BeerXML v1" do
