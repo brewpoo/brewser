@@ -134,7 +134,7 @@ class ProMashRec < Brewser::Engine
     class Style < RecEntry
       string :category, :length => 55, :trim_padding => true
       string :sub_category, :length => 55, :trim_padding => true
-      skip length: 1
+      int8 :_type
       float :min_og
       float :max_og
       float :min_fg
@@ -152,7 +152,7 @@ class ProMashRec < Brewser::Engine
       string :examples, :length => 255, :trim_padding => true
       int16 :category_number
       string :sub_category_letter, :length => 2, :trim_padding => true
-      skip length: 1
+      int8 :_guideline
     end
     
     class Recipe < RecEntry
@@ -186,9 +186,10 @@ end
 class ProMashRec::Hop < Brewser::Hop
 
   @@hop_types = {0 => "Both", 1 => "Bittering", 2 => "Aroma"}
-  @@hop_forms = {1 => "Whole", 21 => "Pellet", 11 => "Plug"}
+  @@hop_forms = {1 => "Whole", 3 => "Whole",  21 => "Pellet", 23 => "Pellet", 11 => "Plug"}
   
-  def from_promash(hop)
+  # Pellet 21, 23
+  def from_promash(hop,time)
     self.name = hop.name.split("\x00")[0]
     self.origin = hop.origin.split("\x00")[0]
     self.alpha_acids = hop.alpha_acids
@@ -202,10 +203,19 @@ class ProMashRec::Hop < Brewser::Hop
     self.caryophyllene = hop.caryphylene
     self.cohumulone = hop.cohumulone
     self.myrcene = hop.myrcene
+    if hop.time.to_i >= 0 and hop.time.to_i <= time
+      self.added_when = "Boil"
+    elsif hop.time.to_i == time+1
+      self.added_when = "FWH"
+    elsif hop.time.to_i == time+2
+      self.added_when = "Mash"
+    else
+      self.added_when = "Dry"
+    end
     
     return self
   end
-  
+
 end
 
 class ProMashRec::Fermentable < Brewser::Fermentable
@@ -217,7 +227,7 @@ class ProMashRec::Fermentable < Brewser::Fermentable
     self.name = ferm.name.split("\x00")[0]
     self.origin = ferm.origin.split("\x00")[0]
     self.type = @@ferm_types[ferm.form][ferm.type]
-    self.potential = ferm.potential
+    self.potential = ferm.potential.round(3)
     self.color = ferm.color
     self.amount = "#{ferm.amount} lbs".u
     self.diastatic_power = ferm.diastatic_power
@@ -233,7 +243,7 @@ class ProMashRec::Additive < Brewser::Additive
   
   @@additive_types = { 0 => "Spice", 1 => "Fruit", 2 => "Flavor", 3 => "Other", 4 => "Fining", 5 => "Herb" }
   @@added_whens = { 0 => "Boil", 1 => "Primary", 2 => "Mash" }
-  @@additive_unit = { 0 => "ozs", 1 => "g", 2 => "lbs", 3 => "tsp", 4 => "tbsp", 5 => "cups", 6 => "each" }
+  @@additive_unit = { 0 => "oz", 1 => "g", 2 => "lb", 3 => "tsp", 4 => "tbsp", 5 => "cups", 6 => "each" }
   @@additive_time = { 0 => "days", 1 => "min" }
   
   def from_promash(add)
@@ -241,7 +251,7 @@ class ProMashRec::Additive < Brewser::Additive
     self.type = @@additive_types[add.type]
     self.added_when = @@added_whens[add.added_when]
     self.time = "#{add.time} #{@@additive_time[add.time_in]}".u
-    self.amount = "#{add.amount} #{@@additive_unit[add.amount_unit]}"
+    self.amount = "#{add.amount} #{@@additive_unit[add.amount_unit]}".u
     self.use_for = add.uses
     
     return self
@@ -297,7 +307,7 @@ class ProMashRec::WaterProfile < Brewser::WaterProfile
     self.chloride = water.chloride
     self.sulfates = water.sulfate
     self.bicarbonate = water.bicarbonate
-    self.ph = water.ph
+    self.ph = water.ph.round(2)
     
     return self
   end
@@ -306,11 +316,16 @@ end
 
 class ProMashRec::Style < Brewser::Style
 
+  @@style_guides = { 0 => "AHA", 1 => "BJCP" }
+  @@style_types = { 0 => "Ale", 1 => "Lager", 2 => "Cider", 3 => "Mead", 5 => "Hybrid"}
+  
   def from_promash(style)
     self.name = style.sub_category.split("\x00")[0]
     self.category = style.category.split("\x00")[0]
     self.category_number = style.category_number
     self.style_letter = style.sub_category_letter
+    self.style_guide = @@style_guides[style._guideline]
+    self.type = @@style_types[style._type]
     self.og_min = style.min_og
     self.og_max = style.max_og
     self.fg_min = style.min_fg
@@ -327,19 +342,23 @@ class ProMashRec::Style < Brewser::Style
 end
 
 class ProMashRec::Recipe < Brewser::Recipe
-
+  
+  @@recipe_types = { 0 => "Other", 15 => "Lager", 25 => "Hybrid", 30 => "Ale" }
+  @@brew_methods = { 0 => "All Grain", 1 => "Partial Mash", 2 => "Extract" }
+  
   def from_promash(data)
     rec = Loader::Recipe.read(data)
     self.name = rec.title.split("\x00")[0]
+    self.method = @@brew_methods[rec._brew_method]
     self.recipe_volume = "#{rec.recipe_volume} gal".u
     self.boil_volume = "#{rec.boil_volume} gal".u
     self.boil_time = "#{rec.boil_time} min".u
-    self.estimated_og = rec.estimated_og
-    self.estimated_ibu = rec.estimated_ibu
+    self.estimated_og = (1+rec.estimated_og/1000).round(3)
+    self.estimated_ibu = rec.estimated_ibu.round(1)
     self.recipe_efficiency = rec.recipe_efficiency*100
     self.style = ProMashRec::Style.new.from_promash(rec.style)
     rec.hops.each do |hop|
-      self.hops.push ProMashRec::Hop.new.from_promash(hop)
+      self.hops.push ProMashRec::Hop.new.from_promash(hop,rec.boil_time.to_i)
     end
     rec.fermentables.each do |fermentable|
       self.fermentables.push ProMashRec::Fermentable.new.from_promash(fermentable)
@@ -351,6 +370,7 @@ class ProMashRec::Recipe < Brewser::Recipe
     self.water_profile = ProMashRec::WaterProfile.new.from_promash(rec.water_profile)
     self.mash_schedule = ProMashRec::MashSchedule.new.from_promash(rec.mash_schedule)
     self.description = rec.notes
+    self.type = self.style.type
     
     return self
   end
