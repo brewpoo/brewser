@@ -189,8 +189,8 @@ class ProMashRec::Hop < Brewser::Hop
   @@hop_forms = {1 => "Whole", 21 => "Pellet", 11 => "Plug"}
   
   def from_promash(hop)
-    self.name = hop.name
-    self.origin = hop.origin
+    self.name = hop.name.split("\x00")[0]
+    self.origin = hop.origin.split("\x00")[0]
     self.alpha_acids = hop.alpha_acids
     self.beta_acids = hop.beta_acids
     self.type = @@hop_types[hop.type]
@@ -214,8 +214,8 @@ class ProMashRec::Fermentable < Brewser::Fermentable
                   1 => { 0 => "Grain", 1 => "Extract", 2 => "Sugar", 3 => "Adjunct"}}
 
   def from_promash(ferm)
-    self.name = ferm.name
-    self.origin = ferm.origin
+    self.name = ferm.name.split("\x00")[0]
+    self.origin = ferm.origin.split("\x00")[0]
     self.type = @@ferm_types[ferm.form][ferm.type]
     self.potential = ferm.potential
     self.color = ferm.color
@@ -237,7 +237,7 @@ class ProMashRec::Additive < Brewser::Additive
   @@additive_time = { 0 => "days", 1 => "min" }
   
   def from_promash(add)
-    self.name = add.name
+    self.name = add.name.split("\x00")[0]
     self.type = @@additive_types[add.type]
     self.added_when = @@added_whens[add.added_when]
     self.time = "#{add.time} #{@@additive_time[add.time_in]}".u
@@ -252,7 +252,7 @@ end
 class ProMashRec::Yeast < Brewser::Yeast
 
   def from_promash(y)
-    self.name = y.name
+    self.name = y.name.split("\x00")[0]
     self.supplier = y.supplier
     self.catalog = y.catalog
     self.attenuation = (y.aa_high + y.aa_low)/2
@@ -290,7 +290,7 @@ end
 class ProMashRec::WaterProfile < Brewser::WaterProfile
 
   def from_promash(water)
-    self.name = water.name
+    self.name = water.name.split("\x00")[0]
     self.calcium = water.calcium
     self.magnesium = water.magnesium
     self.sodium = water.sodium
@@ -307,8 +307,8 @@ end
 class ProMashRec::Style < Brewser::Style
 
   def from_promash(style)
-    self.name = style.sub_category
-    self.category = style.category
+    self.name = style.sub_category.split("\x00")[0]
+    self.category = style.category.split("\x00")[0]
     self.category_number = style.category_number
     self.style_letter = style.sub_category_letter
     self.og_min = style.min_og
@@ -330,7 +330,7 @@ class ProMashRec::Recipe < Brewser::Recipe
 
   def from_promash(data)
     rec = Loader::Recipe.read(data)
-    self.name = rec.title
+    self.name = rec.title.split("\x00")[0]
     self.recipe_volume = "#{rec.recipe_volume} gal".u
     self.boil_volume = "#{rec.boil_volume} gal".u
     self.boil_time = "#{rec.boil_time} min".u
