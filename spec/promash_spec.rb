@@ -62,59 +62,6 @@ describe "ProMash tests" do
       a.time.should == "15 min".u
     end
     
-    # it "should deserialize the yeast data" do
-    #   @recipe.yeasts.count.should == 1
-    #   y=@recipe.yeasts.first
-    #   y.name.should == "Burton Ale"
-    #   y.type.should == "Ale"
-    #   y.form.should == "Liquid"
-    #   y.supplier.should == "White Labs"
-    #   y.catalog.should == "WLP023"
-    #   y.description.should_not be_nil
-    #   y.best_for.should_not be_nil
-    #   y.min_temperature.should == "68 dF".u
-    #   y.max_temperature.should == "73 dF".u
-    #   y.amount.should == "35 ml".u
-    #   y.add_to_secondary?.should == false
-    #   y.flocculation.should == "Medium"
-    #   y.attenuation.should == 72.0
-    #   y.max_reuse.should == 5
-    #   y.times_cultured.should == 0
-    # end
-    # 
-    # it "should deserialize the mash schedule data" do
-    #   m=@recipe.mash_schedule
-    #   m.name.should == "Single Infusion, Full Body"
-    #   m.grain_temp.should == "72 dF".u
-    #   m.sparge_temp.should == "168 dF".u
-    # end
-    # 
-    # it "should deserialize the mash step data" do
-    #   m=@recipe.mash_schedule
-    #   m.mash_steps.count.should == 2
-    #   s=m.mash_steps[0]
-    #   # @TODO Fix this
-    #   s.index.should == 1
-    #   s.name.should == "Mash In"
-    #   s.type.should == "Infusion"
-    #   s.description.should_not be_nil
-    #   s.rest_time.should == "45 min".u
-    #   s.rest_temperature.should == "70 dC".u
-    #   s.infusion_volume.should == "11.25 qt".u
-    #   s.infusion_temperature.should == "170.5 dF".u
-    #   s.water_to_grain_ratio.should == 1.25
-    # end
-    # 
-    # it "should deserialize the fermentation step data" do
-    #   f=@recipe.fermentation_schedule
-    #   f.fermentation_steps.count.should == 3
-    #   s=f.fermentation_steps[0]
-    #   s.index.should == 1
-    #   s.name.should == "Primary"
-    #   s.time.should == "4 days".u
-    #   s.temperature.should == "68 dF".u
-    # end
-    # 
     it "should deserialize the water profile data" do
       w=@recipe.water_profile
       w.name.should == "Marin Tap Water"
@@ -196,59 +143,33 @@ describe "ProMash tests" do
       a.time.should == "5 min".u
     end
     
-    # it "should deserialize the yeast data" do
-    #   @recipe.yeasts.count.should == 1
-    #   y=@recipe.yeasts.first
-    #   y.name.should == "Burton Ale"
-    #   y.type.should == "Ale"
-    #   y.form.should == "Liquid"
-    #   y.supplier.should == "White Labs"
-    #   y.catalog.should == "WLP023"
-    #   y.description.should_not be_nil
-    #   y.best_for.should_not be_nil
-    #   y.min_temperature.should == "68 dF".u
-    #   y.max_temperature.should == "73 dF".u
-    #   y.amount.should == "35 ml".u
-    #   y.add_to_secondary?.should == false
-    #   y.flocculation.should == "Medium"
-    #   y.attenuation.should == 72.0
-    #   y.max_reuse.should == 5
-    #   y.times_cultured.should == 0
-    # end
-    # 
-    # it "should deserialize the mash schedule data" do
-    #   m=@recipe.mash_schedule
-    #   m.name.should == "Single Infusion, Full Body"
-    #   m.grain_temp.should == "72 dF".u
-    #   m.sparge_temp.should == "168 dF".u
-    # end
-    # 
-    # it "should deserialize the mash step data" do
-    #   m=@recipe.mash_schedule
-    #   m.mash_steps.count.should == 2
-    #   s=m.mash_steps[0]
-    #   # @TODO Fix this
-    #   s.index.should == 1
-    #   s.name.should == "Mash In"
-    #   s.type.should == "Infusion"
-    #   s.description.should_not be_nil
-    #   s.rest_time.should == "45 min".u
-    #   s.rest_temperature.should == "70 dC".u
-    #   s.infusion_volume.should == "11.25 qt".u
-    #   s.infusion_temperature.should == "170.5 dF".u
-    #   s.water_to_grain_ratio.should == 1.25
-    # end
-    # 
-    # it "should deserialize the fermentation step data" do
-    #   f=@recipe.fermentation_schedule
-    #   f.fermentation_steps.count.should == 3
-    #   s=f.fermentation_steps[0]
-    #   s.index.should == 1
-    #   s.name.should == "Primary"
-    #   s.time.should == "4 days".u
-    #   s.temperature.should == "68 dF".u
-    # end
-    # 
+    it "should deserialize the yeast data" do
+      @recipe.yeasts.count.should == 1
+      y=@recipe.yeasts.first
+      y.name.should == "Belgian White Beer"
+      y.supplier.should == "WYeast"
+      y.catalog.should == "3944"
+      y.min_temperature.should == "65 dF".u
+      y.max_temperature.should == "65 dF".u
+      y.amount.should == "1 each".u
+      y.attenuation.should == 74.0
+    end
+    
+    it "should deserialize the mash schedule data" do
+      m=@recipe.mash_schedule
+      m.name.should == "Simple"
+    end
+    
+    it "should deserialize the mash step data" do
+      m=@recipe.mash_schedule
+      m.mash_steps.count.should == 3
+      s=m.mash_steps[0]
+      #s.index.should == 1
+      s.name.should == "Sac rest"
+      s.rest_time.should == "90 min".u
+      s.rest_temperature.should == "155 dF".u
+    end
+
     it "should deserialize the water profile data" do
       w=@recipe.water_profile
       w.name.should == "Marin Tap Water"

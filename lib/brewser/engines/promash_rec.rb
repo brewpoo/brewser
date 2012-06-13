@@ -90,8 +90,8 @@ class ProMashRec < Brewser::Engine
       string :flavor_note, :length => 155, :trim_padding => true
       string :comment, :length => 155, :trim_padding => true
       skip length: 9
-      int32 :aa_high
       int32 :aa_low
+      int32 :aa_high
       float :optimum_temp
       skip length: 6
     end
@@ -111,10 +111,29 @@ class ProMashRec < Brewser::Engine
     end
     
     class MashStep < RecEntry
+      string :name, :length => 255, :trim_padding => true
+      int8 :type
+      int32 :start_temp
+      int32 :stop_temp
+      int32 :step_temp
+      int32 :rest_time
+      int32 :step_time
+      float :thickness
+      float :amount
+      skip length: 8
     end
     
     class MashSchedule < RecEntry
-      skip length: 9 # Probably indicates complex mash sch, etc
+      int32 :_steps_count
+      int32 :grain_temp
+      skip length: 4
+      array :mash_steps, :type => :mash_step, :read_until => lambda { index == 50 }
+      string :name, :length => 256, :trim_padding => true
+    end
+    
+    class SimpleSchedule < RecEntry
+      int32 :num_steps
+      skip length: 5
       int32 :acid_rest_temp
       int32 :acid_rest_time
       int32 :protein_rest_temp
@@ -174,9 +193,10 @@ class ProMashRec < Brewser::Engine
       array :additives, :type => :additive, :initial_length => :_additives_count
       yeast :yeast
       water_profile :water_profile
+      simple_schedule :simple_schedule
+      string :notes, :length => 4029, :trim_padding => true
+      string :awards, :length => 3693, :trim_padding => true
       mash_schedule :mash_schedule
-      string :notes, :length => 4028, :trim_padding => true
-      string :awards, :lengh => 4028, :trim_padding => true
     end
   end
   
@@ -277,14 +297,36 @@ end
 
 class ProMashRec::MashStep < Brewser::MashStep
   
-  # Only supporting "simple" mash schedule
+  def from_simple(idx, name, rest_temp, rest_time)
+    self.index = idx
+    self.name = name
+    self.rest_temperature = rest_temp.u
+    self.rest_time = rest_time.u
+    
+    return self
+  end
+  
 end
 
 class ProMashRec::MashSchedule < Brewser::MashSchedule
   
   def from_promash(mash)
-    # TODO finish this
-    return nil
+    
+    return self
+  end
+  
+end
+
+class ProMashRec::SimpleSchedule < Brewser::MashSchedule
+
+  def from_promash(mash)
+    self.name = "Simple"
+    ["acid_rest", "protein_rest", "int_rest", "sac_rest", "mash_out", "sparge"].each do |step, index|
+      next if mash.send("#{step}_temp")==0
+      self.mash_steps.push ProMashRec::MashStep.new.from_simple(index, "#{step.gsub("_"," ").capitalize}", "#{mash.send("#{step}_temp")} dF", 
+        "#{mash.send("#{step}_time")} min")
+    end
+    return self
   end
   
 end
@@ -368,10 +410,14 @@ class ProMashRec::Recipe < Brewser::Recipe
     end
     self.yeasts.push ProMashRec::Yeast.new.from_promash(rec.yeast)
     self.water_profile = ProMashRec::WaterProfile.new.from_promash(rec.water_profile)
-    self.mash_schedule = ProMashRec::MashSchedule.new.from_promash(rec.mash_schedule)
+    if rec.simple_schedule.num_steps > 0
+      self.mash_schedule = ProMashRec::SimpleSchedule.new.from_promash(rec.simple_schedule)
+    else
+      self.mash_schedule = ProMashRec::MashSchedule.new.from_promash(rec.mash_schedule)
+    end
     self.description = rec.notes
     self.type = self.style.type
-    
+    #puts rec.snapshot
     return self
   end
 
