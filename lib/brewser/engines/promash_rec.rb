@@ -32,7 +32,8 @@ class ProMashRec < Brewser::Engine
       float :humulene
       float :caryphylene
       int8 :type
-      int8 :form
+      bit4 :form
+      bit4 :unknown
       float :storage_factor
       string :taste_notes, :length => 155, :trim_padding => true
       string :origin, :length => 55, :trim_padding => true
@@ -110,26 +111,29 @@ class ProMashRec < Brewser::Engine
       skip length: 8
     end
     
-    class MashStep < RecEntry
-      string :name, :length => 255, :trim_padding => true
-      int8 :type
-      int32 :start_temp
-      int32 :stop_temp
-      int32 :step_temp
-      int32 :rest_time
-      int32 :step_time
-      float :thickness
-      float :amount
-      skip length: 8
-    end
-    
-    class MashSchedule < RecEntry
-      int32 :_steps_count
-      int32 :grain_temp
-      skip length: 4
-      array :mash_steps, :type => :mash_step, :read_until => lambda { index == 50 }
-      string :name, :length => 256, :trim_padding => true
-    end
+    # class MashStep < RecEntry
+    #   string :name, :length => 255, :trim_padding => true
+    #   int8 :type
+    #   int32 :start_temp
+    #   int32 :stop_temp
+    #   int32 :step_temp
+    #   int32 :rest_time
+    #   int32 :step_time
+    #   float :thickness
+    #   float :amount
+    #   skip length: 8
+    # end
+    # 
+    # class MashSchedule < RecEntry
+    #   count_bytes_remaining :bytes_remaining
+    #   string :skipped, :length => lambda { bytes_remaining - 14888 }
+    #   int32 :_steps_count
+    #   int32 :grain_temp
+    #   skip length: 4
+    #   array :mash_steps, :type => :mash_step, :read_until => lambda { index == 50 }
+    #   string :name, :length => 255, :trim_padding => true
+    #   int8 :end_byte
+    # end
     
     class SimpleSchedule < RecEntry
       int32 :num_steps
@@ -194,9 +198,9 @@ class ProMashRec < Brewser::Engine
       yeast :yeast
       water_profile :water_profile
       simple_schedule :simple_schedule
-      string :notes, :length => 4029, :trim_padding => true
-      string :awards, :length => 3693, :trim_padding => true
-      mash_schedule :mash_schedule
+      string :notes, :length => 4028, :trim_padding => true
+      string :awards, :length => 2096, :trim_padding => true
+      #mash_schedule :mash_schedule
     end
   end
   
@@ -206,7 +210,7 @@ end
 class ProMashRec::Hop < Brewser::Hop
 
   @@hop_types = {0 => "Both", 1 => "Bittering", 2 => "Aroma"}
-  @@hop_forms = {1 => "Whole", 3 => "Whole",  21 => "Pellet", 23 => "Pellet", 11 => "Plug"}
+  @@hop_forms = {0 => "Whole", 1 => "Plug", 2 => "Pellet"}
   
   # Pellet 21, 23
   def from_promash(hop,time)
@@ -282,7 +286,7 @@ end
 class ProMashRec::Yeast < Brewser::Yeast
 
   def from_promash(y)
-    self.name = y.name.split("\x00")[0]
+    self.name = y.name.split("\x00")[0].strip
     self.supplier = y.supplier
     self.catalog = y.catalog
     self.attenuation = (y.aa_high + y.aa_low)/2
@@ -297,6 +301,8 @@ end
 
 class ProMashRec::MashStep < Brewser::MashStep
   
+  @@step_types = { 0 => "Infusion", 1 => "Direct", 2 => "Decoction" }
+  
   def from_simple(idx, name, rest_temp, rest_time)
     self.index = idx
     self.name = name
@@ -306,11 +312,29 @@ class ProMashRec::MashStep < Brewser::MashStep
     return self
   end
   
+  def from_promash(step,idx=nil)
+    self.name = step.name
+    self.index = idx
+    self.type = @@step_types[step.type]
+    self.ramp_time = "#{step.step_time} min".u
+    self.rest_temperature = "#{step.start_temp} dF".u
+    self.rest_time = "#{step.rest_time} min".u
+    self.infusion_temperature = "#{step.step_temp} dF".u unless step.step_temp.blank?
+    self.infusion_amount = "#{step.amount} qts".u unless step.amount.blank?
+    
+    return self
+  end
+
 end
 
 class ProMashRec::MashSchedule < Brewser::MashSchedule
   
   def from_promash(mash)
+    self.name = mash.name
+    self.grain_temp = "#{mash.grain_temp} dF".u
+    mash.steps.each do |step, idx|
+      self.mash_steps.push ProMashRec::MashStep.new.from_promash(step,idx)
+    end
     
     return self
   end
@@ -410,11 +434,7 @@ class ProMashRec::Recipe < Brewser::Recipe
     end
     self.yeasts.push ProMashRec::Yeast.new.from_promash(rec.yeast)
     self.water_profile = ProMashRec::WaterProfile.new.from_promash(rec.water_profile)
-    if rec.simple_schedule.num_steps > 0
-      self.mash_schedule = ProMashRec::SimpleSchedule.new.from_promash(rec.simple_schedule)
-    else
-      self.mash_schedule = ProMashRec::MashSchedule.new.from_promash(rec.mash_schedule)
-    end
+    self.mash_schedule = ProMashRec::SimpleSchedule.new.from_promash(rec.simple_schedule)
     self.description = rec.notes
     self.type = self.style.type
     #puts rec.snapshot
