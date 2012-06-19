@@ -24,5 +24,10 @@ module Brewser
     property :max_in_batch, Float
     property :recommend_mash?, Boolean
     property :ibu_gal_per_lb, Float
+    
+    def ppg
+      (potential-1)*1000
+    end
+      
   end
 end
