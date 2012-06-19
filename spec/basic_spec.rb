@@ -18,7 +18,7 @@ describe "Basic spec" do
     Brewser.identify(read_file('promash/PumpkinAle.txt')).should == ProMashTxt
   end
   
-  it "should raise an error if it cannot identify content" do
+  it "should identify as ProMash rec when unknown" do
     Brewser.identify("Some unknown content").should == ProMashRec
   end
   
