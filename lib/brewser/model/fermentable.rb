@@ -10,7 +10,7 @@ module Brewser
     property :type, String, :set => ['Grain', 'Sugar', 'Extract', 'Dry Extract', 'Adjunct'], :required => true
     property :yield_percent, Float
     property :potential, Float, :required => true
-    property :ppg, Integer
+    #property :ppg, Integer
     
     property :color, Float, :required => true
 
@@ -26,6 +26,7 @@ module Brewser
     property :ibu_gal_per_lb, Float
     
     def ppg
+      return 0 if potential.blank?
       (potential-1)*1000
     end
       
