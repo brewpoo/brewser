@@ -25,5 +25,30 @@ module Brewser
     property :profile, String, :length => 65535
     property :ingredients, String, :length => 65535
     property :examples, String, :length => 65535
+    
+    def self.json_create(o)
+      data=o['data']
+      return if data.nil?
+      a = self.new
+      a.name = data['name']
+      a.category = data['category']
+      a.category_number = data['category_number']
+      a.style_letter = data['style_letter']
+      a.type = data['type']
+      a.style_guide = data['style_guide']
+
+      return a
+    end
+    
+    def to_json(*a)
+      {
+        'json_class'   => "Brewser::Style",
+        'data'         => {
+          'name' => name, 'category' => category, 
+          'category_number' => category_number, 'style_letter' => style_letter,
+          'type' => type, 'style_guide' => style_guide }
+      }.to_json(*a)
+    end
+    
   end
 end

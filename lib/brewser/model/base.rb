@@ -1,8 +1,11 @@
 module Brewser
-    
+      
   class Model
     require 'dm-core'
     require 'dm-validations'
+    require 'dm-serializer'
+
+    require "msgpack"
     require 'active_support/inflector'
     
     include DataMapper::Resource
@@ -26,9 +29,14 @@ module Brewser
       h
     end
     
-    def to_json *a
-      deep_json.to_json *a
-    end
+    # def to_json *a
+    #   deep_json.to_json *a
+    # end
+    
+    # def self.json_create(o)
+    #   puts "#{o['data']}"
+    #   new(*o['data'])
+    # end
     
     def as_brewson
       BrewSON.serialize(self)
