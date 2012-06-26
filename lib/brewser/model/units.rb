@@ -25,7 +25,7 @@ module Brewser::Model::Units
     def load(value)
       return if value.nil?
       if !value.u.unitless?
-        raise(ArgumentError, "#{value.inspect} is not a #{kind_of}") unless value.u.kind == kind_of
+        raise(ArgumentError, "#{value.inspect} is not a #{kind_of}") unless kind_of.nil? or value.u.kind == kind_of
         value.u
       else
         "#{value} #{base_unit}".u
@@ -65,9 +65,14 @@ module Brewser::Model::Units
 
   class WeightOrVolume < Units
     
+    def kind_of
+      nil
+    end
+    
     def valid_kind?(value)
       value.kind == :mass || value.kind == :volume
     end
+    
     def base_unit
     end
   end
