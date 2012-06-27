@@ -33,8 +33,8 @@ module Brewser
       a.alpha_acids = o['alpha_acids']
       a.beta_acids = o['beta_acids']
       a.added_when = o['added_when']
-      a.time = o['time']
-      a.amount = o['amount']
+      a.time = o['time'].u unless o['time'].blank?
+      a.amount = o['amount'].u unless o['amount'].blank?
       a.form = o['form']
       a.storageability = o['storageability']
       a.substitutes = o['substitutes']
@@ -58,7 +58,7 @@ module Brewser
         'alpha_acids' => alpha_acids, 
         'beta_acids' => beta_acids, 
         'added_when' => added_when, 
-        'time' => time, 'amount' => amount, 
+        'time' => time.to_s, 'amount' => amount.to_s, 
         'form' => form, 'storageability' => storageability, 
         'substitutes' => substitutes, 
         'humulene' => humulene, 'caryophyllene' => caryophyllene,

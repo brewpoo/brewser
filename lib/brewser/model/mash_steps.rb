@@ -29,13 +29,13 @@ module Brewser
       a.description = o['description']
       a.type = o['type']
       a.purpose = o['purpose']
-      a.step_volume = o['step_volume']
-      a.ramp_time = o['ramp_time']
+      a.step_volume = o['step_volume'].u unless o['step_volume'].blank?
+      a.ramp_time = o['ramp_time'].u unless o['ramp_time'].blank?
       a.water_to_grain_ratio = o['water_to_grain_ratio']
-      a.infusion_volume = o['infusion_volume']
-      a.infusion_temperature = o['infusion_temperature']
-      a.rest_temperature = o['rest_temperature']
-      a.rest_time = o['rest_time']
+      a.infusion_volume = o['infusion_volume'].u unless o['infusion_volume'].blank?
+      a.infusion_temperature = o['infusion_temperature'].u unless o['infusion_temperature'].blank?
+      a.rest_temperature = o['rest_temperature'].u unless o['rest_temperature'].blank?
+      a.rest_time = o['rest_time'].u unless o['rest_time'].blank?
 
       return a
     end
@@ -45,9 +45,9 @@ module Brewser
         JSON.create_id => "Brewser::MashStep",
         'name' => name, 'index' => index, 'description' => description, 
         'type' => type, 'purpose' => purpose,
-        'step_volume' => step_volume, 'ramp_time' => ramp_time,
-        'infusion_volume' => infusion_volume, 'infusion_temperature' => infusion_temperature,
-        'rest_temperature' => rest_temperature, 'rest_time' => rest_time,
+        'step_volume' => step_volume.to_s, 'ramp_time' => ramp_time.to_s,
+        'infusion_volume' => infusion_volume.to_s, 'infusion_temperature' => infusion_temperature.to_s,
+        'rest_temperature' => rest_temperature.to_s, 'rest_time' => rest_time.to_s,
         'water_to_grain_ratio' => water_to_grain_ratio 
       }
     end

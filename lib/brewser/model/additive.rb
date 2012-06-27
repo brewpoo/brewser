@@ -17,8 +17,8 @@ module Brewser
       a.description = o['description']
       a.type = o['type']
       a.added_when = o['added_when']
-      a.time = o['time']
-      a.amount = o['amount']
+      a.time = o['time'].u unless o['time'].blank?
+      a.amount = o['amount'].u unless o['amount'].blank?
       a.use_for = o['use_for']
 
       return a
@@ -31,7 +31,7 @@ module Brewser
         'description' => description, 
         'type' => type, 
         'added_when' => added_when, 
-        'time' => time, 'amount' => amount, 
+        'time' => time.to_s, 'amount' => amount.to_s, 
         'use_for' => use_for
       }
     end

@@ -38,7 +38,7 @@ module Brewser
       a.type = o['type']
       a.potential = o['potential']
       a.color = o['color']
-      a.amount = o['amount']
+      a.amount = o['amount'].u unless o['amount'].blank?
       a.late_addition = o['added_late']
       a.coarse_fine_diff = o['coarse_fine_diff']
       a.moisture = o['moisture']
@@ -58,7 +58,7 @@ module Brewser
         'name' => name, 'origin' => origin, 
         'supplier' => supplier, 'description' => description,
         'type' => type, 'ppg' => ppg, 'potential' => potential, 
-        'color' => color, 'amount' => amount, 'added_late' => late_addition?, 
+        'color' => color, 'amount' => amount.to_s, 'added_late' => late_addition?, 
         'coarse_fine_diff' => coarse_fine_diff, 'moisture' => moisture, 
         'diastatic_power' => diastatic_power, 'protein' => protein, 'max_in_batch' => max_in_batch, 
         'recommend_mash' => recommend_mash?, 'ibu_gal_per_lb' => ibu_gal_per_lb

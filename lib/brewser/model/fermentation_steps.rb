@@ -14,8 +14,8 @@ module Brewser
       a.name = o['name']
       a.purpose = o['purpose']
       a.index = o['index']
-      a.time = o['time']
-      a.temperature = o['temperature']
+      a.time = o['time'].u unless o['time'].blank?
+      a.temperature = o['temperature'].u unless o['temperature'].blank?
 
       return a
     end
@@ -25,7 +25,7 @@ module Brewser
         JSON.create_id=> "Brewser::FermentationStep",
         'name' => name, 'purpose' => purpose,
         'index' => index, 
-        'time' => time, 'temperature' => temperature
+        'time' => time.to_s, 'temperature' => temperature.to_s
       }
     end
     

@@ -54,9 +54,9 @@ module Brewser
         'method' => method,
         'brewer' => brewer,
         'style' => style,
-        'recipe_volume' => recipe_volume, 
-        'boil_volume' => boil_volume,
-        'boil_time' => boil_time, 
+        'recipe_volume' => recipe_volume.to_s, 
+        'boil_volume' => boil_volume.to_s,
+        'boil_time' => boil_time.to_s, 
         'recipe_efficiency' => recipe_efficiency, 
         'hops' => hops.to_a, 'fermentables' => fermentables.to_a, 
         'additives' => additives.to_a, 'yeasts' => yeasts.to_a,
@@ -92,9 +92,9 @@ module Brewser
       o['yeasts'].each do |yeast|
         a.yeasts.push yeast
       end unless o['yeasts'].nil?
-      a.recipe_volume = o['recipe_volume']
-      a.boil_volume = o['boil_volume']
-      a.boil_time = o['boil_time']
+      a.recipe_volume = o['recipe_volume'].u unless o['recipe_volume'].blank?
+      a.boil_volume = o['boil_volume'].u unless o['boil_volume'].blank?
+      a.boil_time = o['boil_time'].u unless o['boil_time'].blank?
       a.recipe_efficiency = o['recipe_efficiency']
       a.estimated_og = o['estimated_og']
       a.estimated_fg = o['estimated_fg']
