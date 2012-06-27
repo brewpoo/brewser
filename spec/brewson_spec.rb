@@ -171,4 +171,37 @@ describe "BrewSON spec" do
       s.type.should == "Ale"
     end
   end
+  
+  context "should deserialize json file" do
+    
+    before :each do
+      @recipe = Brewser.parse(read_file('brewson/belgian_white.json'))
+    end
+    
+    it "should deserialize the base recipe data" do
+      @recipe.name.should == "Jeffrey's Winter White"
+      @recipe.brewer.should == "Nobody"
+      @recipe.method.should == "All Grain"
+      @recipe.type.should == "Ale"
+      
+      @recipe.recipe_volume.class.should == Unit
+      @recipe.recipe_volume.kind.should == :volume
+      @recipe.recipe_volume.should == "5 gal".u
+      
+      @recipe.boil_volume.class.should == Unit
+      @recipe.boil_volume.kind.should == :volume
+      @recipe.boil_volume.should == "5 gal".u
+      
+      @recipe.boil_time.class.should == Unit
+      @recipe.boil_time.kind.should == :time
+      @recipe.boil_time.should == "60 min".u
+      
+      @recipe.recipe_efficiency.should == 75.0
+      
+      @recipe.estimated_og.should == 1.049
+      @recipe.estimated_ibu.should == 16.3
+    end
+    
+  end
+  
 end
