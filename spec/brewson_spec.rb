@@ -128,8 +128,7 @@ describe "BrewSON spec" do
       m=@return.mash_schedule
       m.mash_steps.count.should == 2
       s=m.mash_steps[0]
-      # @TODO Fix this
-      #s.index.should == 1
+      s.index.should == 1
       s.name.should == "Mash In"
       s.type.should == "Infusion"
       s.description.should_not be_nil

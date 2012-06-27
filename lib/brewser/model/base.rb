@@ -17,26 +17,6 @@ module Brewser
     def self.auto_migrate_down!(rep);end
     def self.auto_migrate_up!(rep);end
     def self.auto_upgrade!(rep);end
-        
-    def deep_json
-      h = {}
-      instance_variables.each do |e|
-        key = e[1..-1]
-        next if ["roxml_references", "_persistence_state", "_key"].include? key
-        o = instance_variable_get e.to_sym
-        h[key] = (o.respond_to? :deep_json) ? o.deep_json : o;
-      end
-      h
-    end
-    
-    # def to_json *a
-    #   deep_json.to_json *a
-    # end
-    
-    # def self.json_create(o)
-    #   puts "#{o['data']}"
-    #   new(*o['data'])
-    # end
     
     def as_brewson
       BrewSON.serialize(self)

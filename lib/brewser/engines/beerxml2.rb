@@ -10,9 +10,7 @@ class BeerXML2 < Brewser::Engine
     end
 
     def deserialize(string_or_io)
-     results = parse_xml(string_or_io)
-     puts results.inspect
-     return results
+      parse_xml(string_or_io)
     end
     
     def serialize(brewser_model)

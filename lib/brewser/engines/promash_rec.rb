@@ -437,7 +437,7 @@ class ProMashRec::Recipe < Brewser::Recipe
     self.mash_schedule = ProMashRec::SimpleSchedule.new.from_promash(rec.simple_schedule)
     self.description = rec.notes
     self.type = self.style.type
-    #puts rec.snapshot
+
     return self
   end
 

@@ -26,6 +26,7 @@ module Brewser
       return if data.nil?
       a = self.new
       a.name = data['name']
+      a.index = data['index']
       a.description = data['description']
       a.type = data['type']
       a.purpose = data['purpose']
@@ -44,7 +45,7 @@ module Brewser
       {
         'json_class'   => "Brewser::MashStep",
         'data'         => {
-          'name' => name, 'description' => description, 
+          'name' => name, 'index' => index, 'description' => description, 
           'type' => type, 'purpose' => purpose,
           'step_volume' => step_volume, 'ramp_time' => ramp_time,
           'infusion_volume' => infusion_volume, 'infusion_temperature' => infusion_temperature,
