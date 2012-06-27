@@ -27,27 +27,24 @@ module Brewser
     property :examples, String, :length => 65535
     
     def self.json_create(o)
-      data=o['data']
-      return if data.nil?
       a = self.new
-      a.name = data['name']
-      a.category = data['category']
-      a.category_number = data['category_number']
-      a.style_letter = data['style_letter']
-      a.type = data['type']
-      a.style_guide = data['style_guide']
+      a.name = o['name']
+      a.category = o['category']
+      a.category_number = o['category_number']
+      a.style_letter = o['style_letter']
+      a.type = o['type']
+      a.style_guide = o['style_guide']
 
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::Style",
-        'data'         => {
+        JSON.create_id => "Brewser::Style",
           'name' => name, 'category' => category, 
           'category_number' => category_number, 'style_letter' => style_letter,
-          'type' => type, 'style_guide' => style_guide }
-      }.to_json(*a)
+          'type' => type, 'style_guide' => style_guide
+      }
     end
     
   end

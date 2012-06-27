@@ -15,33 +15,30 @@ module Brewser
     property :ph, Float
     
     def self.json_create(o)
-      data=o['data']
-      return if data.nil?
       a = self.new
-      a.name = data['name']
-      a.description = data['description']
-      a.calcium = data['calcium']
-      a.sodium = data['sodium']
-      a.magnesium = data['magnesium']
-      a.chloride = data['chloride']
-      a.sulfates = data['sulfates']
-      a.bicarbonate = data['bicarbonate']
-      a.alkalinity = data['alkalinity']
-      a.ph = data['ph']
+      a.name = o['name']
+      a.description = o['description']
+      a.calcium = o['calcium']
+      a.sodium = o['sodium']
+      a.magnesium = o['magnesium']
+      a.chloride = o['chloride']
+      a.sulfates = o['sulfates']
+      a.bicarbonate = o['bicarbonate']
+      a.alkalinity = o['alkalinity']
+      a.ph = o['ph']
       
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::WaterProfile",
-        'data'         => { 
-          'name' => name, 'description' => description,
-          'calcium' => calcium, 'magnesium' => magnesium,
-          'sodium' => sodium, 'chloride' => chloride,
-          'sulfates' => sulfates, 'bicarbonate' => bicarbonate,
-          'alkalinity' => alkalinity, 'ph' => ph }
-      }.to_json(*a)
+        JSON.create_id => "Brewser::WaterProfile",
+        'name' => name, 'description' => description,
+        'calcium' => calcium, 'magnesium' => magnesium,
+        'sodium' => sodium, 'chloride' => chloride,
+        'sulfates' => sulfates, 'bicarbonate' => bicarbonate,
+        'alkalinity' => alkalinity, 'ph' => ph
+      }
     end
 
   end

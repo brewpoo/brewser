@@ -10,28 +10,26 @@ module Brewser
     has n, :mash_steps
     
     def self.json_create(o)
-      data=o['data']
-      return if data.nil?
+      return nil if o.blank?
       a = self.new
-      a.name = data['name']
-      a.description = data['description']
-      a.grain_temp = data['grain_temperature']
-      a.sparge_temp = data['sparge_temperature']
-      data['mash_steps'].each do |step|
-        a.mash_steps.push JSON.parse(step)
-      end unless data['mash_steps'].nil?
+      a.name = o['name']
+      a.description = o['description']
+      a.grain_temp = o['grain_temperature']
+      a.sparge_temp = o['sparge_temperature']
+      o['mash_steps'].each do |step|
+        a.mash_steps.push step
+      end unless o['mash_steps'].nil?
 
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::MashSchedule",
-        'data'         => {
+        JSON.create_id => "Brewser::MashSchedule",
           'name' => name, 'description' => description, 
           'grain_temperature' => grain_temp, 'sparge_temperature' => sparge_temp,
-          'mash_steps' => mash_steps }
-      }.to_json(*a)
+          'mash_steps' => mash_steps.to_a
+      }
     end 
        
   end

@@ -12,30 +12,28 @@ module Brewser
     property :use_for, String
     
     def self.json_create(o)
-      data=o['data']
       a = self.new
-      a.name = data['name']
-      a.description = data['description']
-      a.type = data['type']
-      a.added_when = data['added_when']
-      a.time = data['time']
-      a.amount = data['amount']
-      a.use_for = data['use_for']
+      a.name = o['name']
+      a.description = o['description']
+      a.type = o['type']
+      a.added_when = o['added_when']
+      a.time = o['time']
+      a.amount = o['amount']
+      a.use_for = o['use_for']
 
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::Additive",
-        'data'         => {
-          'name' => name, 
-          'description' => description, 
-          'type' => type, 
-          'added_when' => added_when, 
-          'time' => time, 'amount' => amount, 
-          'use_for' => use_for }
-      }.to_json(*a)
+        JSON.create_id => "Brewser::Additive",
+        'name' => name, 
+        'description' => description, 
+        'type' => type, 
+        'added_when' => added_when, 
+        'time' => time, 'amount' => amount, 
+        'use_for' => use_for
+      }
     end
     
   end

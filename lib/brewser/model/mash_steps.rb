@@ -22,36 +22,34 @@ module Brewser
     property :rest_time, Time, :required => true
     
     def self.json_create(o)
-      data=o['data']
-      return if data.nil?
+      return nil if o.blank?
       a = self.new
-      a.name = data['name']
-      a.index = data['index']
-      a.description = data['description']
-      a.type = data['type']
-      a.purpose = data['purpose']
-      a.step_volume = data['step_volume']
-      a.ramp_time = data['ramp_time']
-      a.water_to_grain_ratio = data['water_to_grain_ratio']
-      a.infusion_volume = data['infusion_volume']
-      a.infusion_temperature = data['infusion_temperature']
-      a.rest_temperature = data['rest_temperature']
-      a.rest_time = data['rest_time']
+      a.name = o['name']
+      a.index = o['index']
+      a.description = o['description']
+      a.type = o['type']
+      a.purpose = o['purpose']
+      a.step_volume = o['step_volume']
+      a.ramp_time = o['ramp_time']
+      a.water_to_grain_ratio = o['water_to_grain_ratio']
+      a.infusion_volume = o['infusion_volume']
+      a.infusion_temperature = o['infusion_temperature']
+      a.rest_temperature = o['rest_temperature']
+      a.rest_time = o['rest_time']
 
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::MashStep",
-        'data'         => {
-          'name' => name, 'index' => index, 'description' => description, 
-          'type' => type, 'purpose' => purpose,
-          'step_volume' => step_volume, 'ramp_time' => ramp_time,
-          'infusion_volume' => infusion_volume, 'infusion_temperature' => infusion_temperature,
-          'rest_temperature' => rest_temperature, 'rest_time' => rest_time,
-          'water_to_grain_ratio' => water_to_grain_ratio }
-      }.to_json(*a)
+        JSON.create_id => "Brewser::MashStep",
+        'name' => name, 'index' => index, 'description' => description, 
+        'type' => type, 'purpose' => purpose,
+        'step_volume' => step_volume, 'ramp_time' => ramp_time,
+        'infusion_volume' => infusion_volume, 'infusion_temperature' => infusion_temperature,
+        'rest_temperature' => rest_temperature, 'rest_time' => rest_time,
+        'water_to_grain_ratio' => water_to_grain_ratio 
+      }
     end
     
   end

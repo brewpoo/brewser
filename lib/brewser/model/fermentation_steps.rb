@@ -10,26 +10,23 @@ module Brewser
     property :temperature, Temperature
     
     def self.json_create(o)
-      data=o['data']
-      return if data.nil?
       a = self.new
-      a.name = data['name']
-      a.purpose = data['purpose']
-      a.index = data['index']
-      a.time = data['time']
-      a.temperature = data['temperature']
+      a.name = o['name']
+      a.purpose = o['purpose']
+      a.index = o['index']
+      a.time = o['time']
+      a.temperature = o['temperature']
 
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::FermentationStep",
-        'data'         => {
-          'name' => name, 'purpose' => purpose,
-          'index' => index, 
-          'time' => time, 'temperature' => temperature }
-      }.to_json(*a)
+        JSON.create_id=> "Brewser::FermentationStep",
+        'name' => name, 'purpose' => purpose,
+        'index' => index, 
+        'time' => time, 'temperature' => temperature
+      }
     end
     
   end

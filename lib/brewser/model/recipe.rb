@@ -45,67 +45,65 @@ module Brewser
   
     validates_presence_of :mash_schedule, :if => proc { |t| t.method != 'Extract' }
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::Recipe",
-        'data'         => {
-          'name' => name, 
-          'description' => description, 
-          'type' => type,
-          'method' => method,
-          'brewer' => brewer,
-          'style' => style,
-          'recipe_volume' => recipe_volume, 
-          'boil_volume' => boil_volume,
-          'boil_time' => boil_time, 
-          'recipe_efficiency' => recipe_efficiency, 
-          'hops' => hops, 'fermentables' => fermentables, 
-          'additives' => additives, 'yeasts' => yeasts,
-          'mash_schedule' => mash_schedule, 'fermentation_schedule' => fermentation_schedule, 
-          'water_profile' => water_profile,
-          'estimated_og' => estimated_og, 'estimated_fg' => estimated_fg, 
-          'estimated_color' => estimated_color, 'estimated_ibu' => estimated_ibu, 
-          'estimated_abv' => estimated_abv, 'carbonation_level' => carbonation_level, 
-          'source' => source, 'url' => url }
-      }.to_json(*a)
+        JSON.create_id => "Brewser::Recipe",
+        'name' => name, 
+        'description' => description, 
+        'type' => type,
+        'method' => method,
+        'brewer' => brewer,
+        'style' => style,
+        'recipe_volume' => recipe_volume, 
+        'boil_volume' => boil_volume,
+        'boil_time' => boil_time, 
+        'recipe_efficiency' => recipe_efficiency, 
+        'hops' => hops.to_a, 'fermentables' => fermentables.to_a, 
+        'additives' => additives.to_a, 'yeasts' => yeasts.to_a,
+        'mash_schedule' => mash_schedule, 'fermentation_schedule' => fermentation_schedule, 
+        'water_profile' => water_profile,
+        'estimated_og' => estimated_og, 'estimated_fg' => estimated_fg, 
+        'estimated_color' => estimated_color, 'estimated_ibu' => estimated_ibu, 
+        'estimated_abv' => estimated_abv, 'carbonation_level' => carbonation_level, 
+        'source' => source, 'url' => url
+      }
     end
     
     def self.json_create(o)
-      data=o['data']
       a = self.new
-      a.name = data['name']
-      a.description = data['description']
-      a.brewer = data['brewer']
-      a.method = data['method']
-      a.type = data['type']
-      a.style = data['style']
-      a.mash_schedule = data['mash_schedule']
-      a.fermentation_schedule = data['fermentation_schedule']
-      a.water_profile = data['water_profile']
-      data['fermentables'].each do |fermentable|
-        a.fermentables.push JSON.parse(fermentable)
-      end unless data['fermentables'].nil?
-      data['hops'].each do |hop|
-        a.hops.push JSON.parse(hop)
-      end unless data['hops'].nil?
-      data['additives'].each do |additive|
-        a.additives.push JSON.parse(additive)
-      end unless data['additives'].nil?
-      data['yeasts'].each do |yeast|
-        a.yeasts.push JSON.parse(yeast)
-      end unless data['yeasts'].nil?
-      a.recipe_volume = data['recipe_volume']
-      a.boil_volume = data['boil_volume']
-      a.boil_time = data['boil_time']
-      a.recipe_efficiency = data['recipe_efficiency']
-      a.estimated_og = data['estimated_og']
-      a.estimated_fg = data['estimated_fg']
-      a.estimated_color = data['estimated_color']
-      a.estimated_ibu = data['estimated_ibu']
-      a.estimated_abv = data['estimated_abv']
-      a.carbonation_level = data['carbonation_level']
-      a.source = data['source']
-      a.url = data['url']
+      a.name = o['name']
+      a.description = o['description']
+      a.brewer = o['brewer']
+      a.method = o['method']
+      a.type = o['type']
+      a.style = o['style']
+      a.mash_schedule = o['mash_schedule']
+      a.fermentation_schedule = o['fermentation_schedule']
+      a.water_profile = o['water_profile']
+      o['fermentables'].each do |fermentable|
+        a.fermentables.push fermentable
+      end unless o['fermentables'].nil?
+      o['hops'].each do |hop|
+        a.hops.push hop
+      end unless o['hops'].nil?
+      o['additives'].each do |additive|
+        a.additives.push additive
+      end unless o['additives'].nil?
+      o['yeasts'].each do |yeast|
+        a.yeasts.push yeast
+      end unless o['yeasts'].nil?
+      a.recipe_volume = o['recipe_volume']
+      a.boil_volume = o['boil_volume']
+      a.boil_time = o['boil_time']
+      a.recipe_efficiency = o['recipe_efficiency']
+      a.estimated_og = o['estimated_og']
+      a.estimated_fg = o['estimated_fg']
+      a.estimated_color = o['estimated_color']
+      a.estimated_ibu = o['estimated_ibu']
+      a.estimated_abv = o['estimated_abv']
+      a.carbonation_level = o['carbonation_level']
+      a.source = o['source']
+      a.url = o['url']
 
       return a
     end

@@ -30,41 +30,39 @@ module Brewser
     end
     
     def self.json_create(o)
-      data=o['data']
       a = self.new
-      a.name = data['name']
-      a.origin = data['origin']
-      a.supplier = data['supplier']
-      a.description = data['description']      
-      a.type = data['type']
-      a.potential = data['potential']
-      a.color = data['color']
-      a.amount = data['amount']
-      a.late_addition = data['added_late']
-      a.coarse_fine_diff = data['coarse_fine_diff']
-      a.moisture = data['moisture']
-      a.diastatic_power = data['diastatic_power']
-      a.protein = data['protein']
-      a.max_in_batch = data['max_in_batch']
-      a.origin = data['origin']
-      a.recommend_mash = data['recommend_mash']
-      a.ibu_gal_per_lb = data['ibu_gal_per_lb']
+      a.name = o['name']
+      a.origin = o['origin']
+      a.supplier = o['supplier']
+      a.description = o['description']      
+      a.type = o['type']
+      a.potential = o['potential']
+      a.color = o['color']
+      a.amount = o['amount']
+      a.late_addition = o['added_late']
+      a.coarse_fine_diff = o['coarse_fine_diff']
+      a.moisture = o['moisture']
+      a.diastatic_power = o['diastatic_power']
+      a.protein = o['protein']
+      a.max_in_batch = o['max_in_batch']
+      a.origin = o['origin']
+      a.recommend_mash = o['recommend_mash']
+      a.ibu_gal_per_lb = o['ibu_gal_per_lb']
 
       return a
     end
     
-    def to_json(*a)
+    def as_json(options={})
       {
-        'json_class'   => "Brewser::Fermentable",
-        'data'         => { 
-          'name' => name, 'origin' => origin, 
-          'supplier' => supplier, 'description' => description,
-          'type' => type, 'ppg' => ppg, 'potential' => potential, 
-          'color' => color, 'amount' => amount, 'added_late' => late_addition?, 
-          'coarse_fine_diff' => coarse_fine_diff, 'moisture' => moisture, 
-          'diastatic_power' => diastatic_power, 'protein' => protein, 'max_in_batch' => max_in_batch, 
-          'recommend_mash' => recommend_mash?, 'ibu_gal_per_lb' => ibu_gal_per_lb }
-      }.to_json(*a)
+        JSON.create_id => "Brewser::Fermentable",
+        'name' => name, 'origin' => origin, 
+        'supplier' => supplier, 'description' => description,
+        'type' => type, 'ppg' => ppg, 'potential' => potential, 
+        'color' => color, 'amount' => amount, 'added_late' => late_addition?, 
+        'coarse_fine_diff' => coarse_fine_diff, 'moisture' => moisture, 
+        'diastatic_power' => diastatic_power, 'protein' => protein, 'max_in_batch' => max_in_batch, 
+        'recommend_mash' => recommend_mash?, 'ibu_gal_per_lb' => ibu_gal_per_lb
+      }
     end
       
   end
