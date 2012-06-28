@@ -18,8 +18,8 @@ class BeerXML < Brewser::Engine
           ("BeerXML::#{inner.node_name.downcase.camelcase}".constantize).from_xml(inner)
         end
         return cleanup(objects)
-     # rescue
-     #   raise Error, "BeerXML engine encountered an issue and can not continue"
+     rescue
+       raise Error, "BeerXML engine encountered an issue and can not continue"
       end
     end
     
