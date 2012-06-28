@@ -7,7 +7,7 @@ describe "BrewSON spec" do
   end
   
   it "should generate JSON" do
-    json = @recipe.to_json
+    json = BrewSON.serialize(@recipe)
     json.valid_json?.should be_true
   end
   
