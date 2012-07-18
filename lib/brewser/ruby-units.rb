@@ -1,11 +1,13 @@
 require 'ruby-units'
 
-Unit.redefine!('celsius') do |celsius|
-  celsius.aliases  = %w{degC dC C celsius centigrade}
+Unit.redefine!('tempC') do |celsius|
+  celsius.aliases  = %w{degC dC C}
+  celsius.display_name  = "dC"
 end
 
-Unit.redefine!('fahrenheit') do |fahrenheit|
-  fahrenheit.aliases  = %w{degF dF F fahrenheit}
+Unit.redefine!('tempF') do |fahrenheit|
+  fahrenheit.aliases  = %w{degF dF F}
+  fahrenheit.display_name  = "dC"
 end
 
 Unit.redefine!('gram') do |gram|
