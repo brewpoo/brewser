@@ -10,6 +10,14 @@ Unit.redefine!('tempF') do |fahrenheit|
   fahrenheit.display_name  = "dC"
 end
 
+Unit.redefine!('celsius') do |celsius|
+  celsius.aliases  = %w{celsius centigrade}
+end
+
+Unit.redefine!('fahrenheit') do |fahrenheit|
+  fahrenheit.aliases  = %w{fahrenheit}
+end
+
 Unit.redefine!('gram') do |gram|
   gram.aliases  = %w{g gm gram grams gramme grammes}
 end
