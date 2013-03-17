@@ -1,6 +1,8 @@
 brewser
 =======
 
+![Code Climate](https://codeclimate.com/github/brewpoo/brewser.png "Code Climate")
+
 Brewser is a ruby library for parsing and generating serialized brewing data
 
 Currently brewser is early in development but will eventually support the following input formats:
