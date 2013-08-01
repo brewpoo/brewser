@@ -1,0 +1,199 @@
+
+<RECIPES>
+<RECIPE>
+<NAME>Ryebiscus Red Ale 2.1</NAME>
+<TYPE>Partial Mash</TYPE>
+<BREWER>Harry Effron</BREWER>
+<BATCH_SIZE>18.92705892</BATCH_SIZE>
+<BOIL_SIZE>23.65882365</BOIL_SIZE>
+<BOIL_TIME>60</BOIL_TIME>
+<EFFICIENCY>37.5</EFFICIENCY>
+<HOPS>
+<HOP>
+<NAME>Galena</NAME>
+<ORIGIN>United States</ORIGIN>
+<ALPHA>13.0</ALPHA>
+<BETA nil="true"/>
+<AMOUNT>0.021262165279462134</AMOUNT>
+<DISPLAY_AMOUNT>0.021262165279462134 kg</DISPLAY_AMOUNT>
+<USE>Boil</USE>
+<FORM>Pellet</FORM>
+<TIME>60</TIME>
+<DISPLAY_TIME>60.0 min</DISPLAY_TIME>
+<NOTES>Medium but pleasant hoppiness, citrusy.</NOTES>
+</HOP>
+<HOP>
+<NAME>Galena</NAME>
+<ORIGIN>United States</ORIGIN>
+<ALPHA>13.0</ALPHA>
+<BETA nil="true"/>
+<AMOUNT>0.007087388426487397</AMOUNT>
+<DISPLAY_AMOUNT>0.007087388426487397 kg</DISPLAY_AMOUNT>
+<USE>Boil</USE>
+<FORM>Pellet</FORM>
+<TIME>15</TIME>
+<DISPLAY_TIME>15.0 min</DISPLAY_TIME>
+<NOTES>Medium but pleasant hoppiness, citrusy.</NOTES>
+</HOP>
+</HOPS>
+<FERMENTABLES>
+<FERMENTABLE>
+<NAME>Rye LME</NAME>
+<ORIGIN></ORIGIN>
+<TYPE>Liquid Extract</TYPE>
+<YIELD>75.57762902180937</YIELD>
+<AMOUNT>1.496854821</AMOUNT>
+<DISPLAY_AMOUNT>1.496854821 kg</DISPLAY_AMOUNT>
+<POTENTIAL>1.035</POTENTIAL>
+<COLOR>9</COLOR>
+<DISPLAY_COLOR>9 SRM</DISPLAY_COLOR>
+<ADD_AFTER_BOIL>false</ADD_AFTER_BOIL>
+<COARSE_FINE_DIFF nil="true"/>
+<MOISTURE nil="true"/>
+<DIASTATIC_POWER nil="true"/>
+<PROTEIN nil="true"/>
+<MAX_IN_BATCH nil="true"/>
+<RECOMMEND_MASH>false</RECOMMEND_MASH>
+<IBU_GAL_PER_LB nil="true"/>
+<NOTES/>
+</FERMENTABLE>
+<FERMENTABLE>
+<NAME>Sparkling Amber LME</NAME>
+<ORIGIN></ORIGIN>
+<TYPE>Liquid Extract</TYPE>
+<YIELD>73.41826819261505</YIELD>
+<AMOUNT>1.496854821</AMOUNT>
+<DISPLAY_AMOUNT>1.496854821 kg</DISPLAY_AMOUNT>
+<POTENTIAL>1.034</POTENTIAL>
+<COLOR>10</COLOR>
+<DISPLAY_COLOR>10 SRM</DISPLAY_COLOR>
+<ADD_AFTER_BOIL nil="true"/>
+<COARSE_FINE_DIFF nil="true"/>
+<MOISTURE nil="true"/>
+<DIASTATIC_POWER nil="true"/>
+<PROTEIN nil="true"/>
+<MAX_IN_BATCH nil="true"/>
+<RECOMMEND_MASH nil="true"/>
+<IBU_GAL_PER_LB nil="true"/>
+<NOTES nil="true"/>
+</FERMENTABLE>
+<FERMENTABLE>
+<NAME>Rye Malt</NAME>
+<ORIGIN></ORIGIN>
+<TYPE>Grain</TYPE>
+<YIELD>62.621464046642004</YIELD>
+<AMOUNT>0.6803885550000001</AMOUNT>
+<DISPLAY_AMOUNT>0.6803885550000001 kg</DISPLAY_AMOUNT>
+<POTENTIAL>1.029</POTENTIAL>
+<COLOR>3</COLOR>
+<DISPLAY_COLOR>3 SRM</DISPLAY_COLOR>
+<ADD_AFTER_BOIL>false</ADD_AFTER_BOIL>
+<COARSE_FINE_DIFF>0.0</COARSE_FINE_DIFF>
+<MOISTURE>4.0</MOISTURE>
+<DIASTATIC_POWER>105.0</DIASTATIC_POWER>
+<PROTEIN>12.5</PROTEIN>
+<MAX_IN_BATCH nil="true"/>
+<RECOMMEND_MASH>false</RECOMMEND_MASH>
+<IBU_GAL_PER_LB nil="true"/>
+<NOTES>
+Use in light- and medium-colored and flavored beers for added complexity.
+</NOTES>
+</FERMENTABLE>
+<FERMENTABLE>
+<NAME>Finest Maris Otter Ale Malt</NAME>
+<ORIGIN></ORIGIN>
+<TYPE>Grain</TYPE>
+<YIELD>81.45109047721868</YIELD>
+<AMOUNT>0.45359237</AMOUNT>
+<DISPLAY_AMOUNT>0.45359237 kg</DISPLAY_AMOUNT>
+<POTENTIAL>1.03772</POTENTIAL>
+<COLOR>3</COLOR>
+<DISPLAY_COLOR>3 SRM</DISPLAY_COLOR>
+<ADD_AFTER_BOIL>false</ADD_AFTER_BOIL>
+<COARSE_FINE_DIFF>0.0</COARSE_FINE_DIFF>
+<MOISTURE>3.5</MOISTURE>
+<DIASTATIC_POWER>140.0</DIASTATIC_POWER>
+<PROTEIN nil="true"/>
+<MAX_IN_BATCH nil="true"/>
+<RECOMMEND_MASH>false</RECOMMEND_MASH>
+<IBU_GAL_PER_LB nil="true"/>
+<NOTES>
+The variety Maris Otter was bred by Dr GDH Bell in Cambridge by crossing Proctor and Pioneer barley. Crisp Norfolk grown Maris Otter is recognised worldwide as the benchmark barley for the best ale malt. In malting, as with brewing, the importance and the quality of raw materials cannot be underestimated. Maris Otter has been grown for malting for more than 45 years and its pedigree and track record of, year after year, delivering consistent, processable and flavoursome malt is unsurpassed. The reliability of Maris Otter malted barley quality has allowed brewers to develop, stabilise and maintain many of the world famous English cask conditioned ale brands we know today.
+</NOTES>
+</FERMENTABLE>
+<FERMENTABLE>
+<NAME>Chocolate Malt</NAME>
+<ORIGIN></ORIGIN>
+<TYPE>Grain</TYPE>
+<YIELD>72.51133664435314</YIELD>
+<AMOUNT>0.05669904625</AMOUNT>
+<DISPLAY_AMOUNT>0.05669904625 kg</DISPLAY_AMOUNT>
+<POTENTIAL>1.03358</POTENTIAL>
+<COLOR>350</COLOR>
+<DISPLAY_COLOR>350 SRM</DISPLAY_COLOR>
+<ADD_AFTER_BOIL>false</ADD_AFTER_BOIL>
+<COARSE_FINE_DIFF>0.0</COARSE_FINE_DIFF>
+<MOISTURE>6.0</MOISTURE>
+<DIASTATIC_POWER nil="true"/>
+<PROTEIN nil="true"/>
+<MAX_IN_BATCH nil="true"/>
+<RECOMMEND_MASH>false</RECOMMEND_MASH>
+<IBU_GAL_PER_LB nil="true"/>
+<NOTES>Rich, roasted coffee and cocoa.</NOTES>
+</FERMENTABLE>
+</FERMENTABLES>
+<YEASTS>
+<YEAST>
+<LABORATORY>Fermentis</LABORATORY>
+<NAME>Safale US-05</NAME>
+<TYPE>Ale</TYPE>
+<FORM>Dry</FORM>
+<ATTENUATION>73.0</ATTENUATION>
+</YEAST>
+</YEASTS>
+<MISCS>
+<MISC>
+<NAME>Hibiscus</NAME>
+<USE>Mash</USE>
+<TIME>60.0</TIME>
+<AMOUNT>0.05669904625</AMOUNT>
+<AMOUNT_IS_WEIGHT>true</AMOUNT_IS_WEIGHT>
+<NOTES nil="true"/>
+<DISPLAY_AMOUNT>2.0 oz</DISPLAY_AMOUNT>
+<DISPLAY_TIME>60.0 min</DISPLAY_TIME>
+</MISC>
+<MISC>
+<NAME>Hibiscus</NAME>
+<USE>Boil</USE>
+<TIME>1.0</TIME>
+<AMOUNT>0.05669904625</AMOUNT>
+<AMOUNT_IS_WEIGHT>true</AMOUNT_IS_WEIGHT>
+<NOTES nil="true"/>
+<DISPLAY_AMOUNT>2.0 oz</DISPLAY_AMOUNT>
+<DISPLAY_TIME>1.0 min</DISPLAY_TIME>
+</MISC>
+<MISC>
+<NAME>Whirlfloc Tablet</NAME>
+<USE>Boil</USE>
+<TIME>10.0</TIME>
+<AMOUNT>1</AMOUNT>
+<AMOUNT_IS_WEIGHT>false</AMOUNT_IS_WEIGHT>
+<NOTES>
+A blend of Irish Moss and purified Kappa carrageenan that encourages the precipitation of haze causing materials such as proteins and Beta glucans. Prepared in a quick dissolving, highly soluble tablet form.
+</NOTES>
+<DISPLAY_AMOUNT>1.0 each</DISPLAY_AMOUNT>
+<DISPLAY_TIME>10.0 min</DISPLAY_TIME>
+</MISC>
+<MISC>
+<NAME>Hibiscus</NAME>
+<USE>Secondary</USE>
+<TIME>10080.0</TIME>
+<AMOUNT>0.05669904625</AMOUNT>
+<AMOUNT_IS_WEIGHT>true</AMOUNT_IS_WEIGHT>
+<NOTES/>
+<DISPLAY_AMOUNT>2.0 oz</DISPLAY_AMOUNT>
+<DISPLAY_TIME>7.0 days</DISPLAY_TIME>
+</MISC>
+</MISCS>
+</RECIPE>
+</RECIPES>
