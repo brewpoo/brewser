@@ -7,6 +7,7 @@ I am using this to help me turn Beer XML files into ruby objects and JSON. Some 
 methods were not working for me, so I made my own fork of the repo to fix it.
 
 Original Contributor's Notes:
+---------------
 
 Brewser is a ruby library for parsing and generating serialized brewing data
 
