@@ -58,14 +58,21 @@ module Brewser
         'boil_volume' => boil_volume.to_s,
         'boil_time' => boil_time.to_s, 
         'recipe_efficiency' => recipe_efficiency, 
-        'hops' => hops.to_a, 'fermentables' => fermentables.to_a, 
-        'additives' => additives.to_a, 'yeasts' => yeasts.to_a,
-        'mash_schedule' => mash_schedule, 'fermentation_schedule' => fermentation_schedule, 
+        'hops' => hops.to_a.map(&:as_json), 
+        'fermentables' => fermentables.to_a.map(&:as_json), 
+        'additives' => additives.to_a.map(&:as_json), 
+        'yeasts' => yeasts.to_a.map(&:as_json),
+        'mash_schedule' => mash_schedule, 
+        'fermentation_schedule' => fermentation_schedule, 
         'water_profile' => water_profile,
-        'estimated_og' => estimated_og, 'estimated_fg' => estimated_fg, 
-        'estimated_color' => estimated_color, 'estimated_ibu' => estimated_ibu, 
-        'estimated_abv' => estimated_abv, 'carbonation_level' => carbonation_level, 
-        'source' => source, 'url' => url
+        'estimated_og' => estimated_og, 
+        'estimated_fg' => estimated_fg, 
+        'estimated_color' => estimated_color, 
+        'estimated_ibu' => estimated_ibu, 
+        'estimated_abv' => estimated_abv, 
+        'carbonation_level' => carbonation_level, 
+        'source' => source, 
+        'url' => url
       }
     end
     

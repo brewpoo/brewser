@@ -404,8 +404,8 @@ class BeerXML::Recipe < Brewser::Recipe
   def cleanup
     self.recipe_volume = display_batch_size.present? ? display_batch_size.u : "#{uncast_batch_size} l".u 
     self.boil_volume = display_boil_size.present? ? display_boil_size.u : "#{uncast_boil_size} l".u
-    self.type = style.type || "Other"
-    mash_schedule.cleanup
+    self.type = style ? style.type : "Other"
+    mash_schedule.cleanup if mash_schedule
     hops.each(&:cleanup)
     fermentables.each(&:cleanup)
     additives.each(&:cleanup)
