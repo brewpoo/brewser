@@ -1,7 +1,13 @@
 brewser
 =======
 
-![Code Climate](https://codeclimate.com/github/brewpoo/brewser.png "Code Climate")
+Reason for fork
+---------------
+I am using this to help me turn Beer XML files into ruby objects and JSON. Some XML parsing 
+methods were not working for me, so I made my own fork of the repo to fix it.
+
+Original Contributor's Notes:
+---------------
 
 Brewser is a ruby library for parsing and generating serialized brewing data
 
