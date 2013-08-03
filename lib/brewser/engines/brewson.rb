@@ -8,7 +8,7 @@ class BrewSON < Brewser::Engine
   
     def deserialize(string_or_io)
        begin
-         JSON.parse(string_or_io)
+         JSON.load(string_or_io)
       rescue
         raise Error, "BrewSON engine encountered an issue and can not continue"
        end
